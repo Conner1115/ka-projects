@@ -1,5 +1,5 @@
 var bcs = 0;
-var clicks = 869;
+var clicks = 0;
 var clickable = true;
 var hideButton = false;
 var messages = [
