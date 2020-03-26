@@ -647,7 +647,7 @@ alert("Hello World");
         clickable = false;
         $("#button-base-l").on("click",function(){
             alert("Here's a hint: click \"click\" to advance your clicks or your clicker will click & die.");
-            clicks = 155;
+            clicks ++;
             clickable = true;
         })
     }
@@ -655,11 +655,11 @@ alert("Hello World");
         clickable = false;
         $("body").append("<div id = 'u-c'><img src = 'https://www.khanacademy.org/computer-programming/asdf-carrots/5946270116216832/5649050225344512.png' style='width:98%;position:absolute;top:0px'><input id = 'dink' style = 'border:solid rgb(248, 247, 250) 1px; outline:none;position:relative;top:-30px;'></div>");
         $("img").on("click",function(){
-          if($("#dink").val() === "Hey, did you know that carrots are good for your eyes?"||$("#dink").val() === "You lied to me"){
-            clicks = 524;
+          
+            clicks ++;
             clickable = true;
             $("#u-c").hide();
-        }  
+     
         })
     }
     if(clicks === 524){
