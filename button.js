@@ -448,7 +448,7 @@ alert("Hello World");
         
         $("h2").on("click",function(){
             $("#clicks").html(clicks);
-            clicks=11;
+            clicks++;
             if(clicks === 11){
         hideButton = false;
     }
@@ -463,7 +463,7 @@ alert("Hello World");
             bcs++;
             if(bcs > 50){
                 $("#lb").hide();
-                clicks = 21;
+                clicks++;
                 hideButton = false;
             }
         })
