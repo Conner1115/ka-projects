@@ -11,27 +11,13 @@
 })();
 
       let scene = "game";
+      let level = 0;
       let keys = [];
       let blocks = [];
       var particles = [];
-      var levelMaps = [
-        [
-            
-            "010103210101",
-            "444444444444",
-            
-        ],
-        [
-        
-        ],
-        [
-        
-        ],
-        [
-        
-        ],
-      ];
       let blockCollidedIn = [false,false];
+      var pageX = constrain(pageX,0,4);
+      var pageY = constrain(pageY,0,4);
       var ang = function(input){
           return input*(PI/180);
       }
@@ -209,6 +195,7 @@
               fill(i*2+70);
               rect(0,i,50,1);
           }
+          strokeWeight(2);
           stroke(0,200,200);
           line(0,25,50,25);
           line(25,0,25,50);
@@ -279,6 +266,7 @@
           noStroke(0);
       };
       var floorFlare = 0;
+      var b;
       let hotBlock = function(x,y){
           noStroke();
           for(var i = 0; i < 50; i++){
@@ -348,14 +336,14 @@
               break;
               case 4:
                 pushMatrix();
-                  translate(this.x,this.y);
+                  translate(this.x+50,this.y);
                   
                 dangerFloor(0,0);
                 popMatrix();  
               break;
               case 5:
                 pushMatrix();
-                  translate(this.x,this.y);
+                  translate(this.x+50,this.y);
                   rotate(ang(90));
                 dangerFloor(0,0);
                 popMatrix();  
@@ -386,20 +374,16 @@
               break;
           }
       }
-      let drawMap = function(){
-          for(var i = 0; i < levelMaps.length; i++){
-              for(var j = 0; j < levelMaps[i].length; j++){
-                  var z = levelMaps[i][j][0];
-                  for(var q = 0; q < 600/50; q++){
-                    var b = levelMaps[i][j][q];
-                    //this is not local storage.  parseFloat() is.
-            //parseInt gets rid of the quatation marks around the number
-                    blocks.push(new Block(q*50,j*50,parseInt(b)));
-                  }
-            
+      var drawMap = function(arr){
+          for(var i = 0; i < arr.length; i++){
+              var z = arr[i].split('');
+              for(var j = 0; j < z.length; j++){
                   
-              }
+                      blocks.push(new Block(j*50,i*50,parseInt(z[j])))
+                     text(z,300,300);
+                  }
           }
+          
       }
       let Player = function(x,y){
           this.pulsing = false;
@@ -929,8 +913,6 @@
              this.x < b.x+b.radius*2){
               blockCollidedIn = [true,b.type];
               
-          }else{
-              blockCollidedIn = [false,false];
           }
               }
           }
@@ -979,16 +961,37 @@
               }
           
       };
-      var player = new Player(300,100);
-      blocks.push(new Block(100,100,0),new Block(150,100,1),new Block(100,150,2),new Block(150,150,3),new Block(200,150,4),new Block(150,250,9))
+      
+      var player = new Player(300,200);
+      
+      
+      drawMap([
+        "010101010101",
+        "199999999990",
+        "099999999961",
+        "199999999930",
+        "099999999951",
+        "199999999955",
+        "099999999955",
+        "199999999950",
+        "099999999921",
+        "199999999970",
+        "099999999991",
+        "010101010101",
+      ]);
+      
       draw = function(){
           
           if(scene === "game"){
           background(150);
+          text(blockCollidedIn,300,300)
+          
+          
+              
+          
           for(var i = 0; i < blocks.length; i++){
           blocks[i].draw();
           }
-          drawMap();
           player.draw();
           player.allowMove();
           player.collide();
@@ -1000,6 +1003,7 @@
                   player.health-=0.05;
               }
           }
+          
           if(blockCollidedIn[0]&&blockCollidedIn[1] === 7){
               if(player.health < 100){
               player.health+=0.05;
@@ -1015,6 +1019,19 @@
           if(player.health <= 0){
               scene = "lose"
           }
+          if(player.x <= 0){
+              pageX--;
+          }
+          if(player.y <= 0){
+              pageY--;
+          }
+          if(player.y+player.height >= 600){
+              pageY++;
+          }
+          if(player.x+player.width >= 600){
+              pageX++;
+          }
+          
           
           }
           if(scene === "lose"){
