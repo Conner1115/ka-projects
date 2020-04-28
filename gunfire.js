@@ -176,3 +176,8 @@ background(255);
 menu();
 };
     }};
+
+// Get the canvas that ProcessingJS will use
+  var canvas = document.getElementById("game"); 
+  // Pass the function to ProcessingJS constructor
+  var RenderPJS = new Processing(canvas, codeSource); 
