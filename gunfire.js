@@ -1,3 +1,14 @@
+ var codeSource = function(processingInstance) {
+    with (processingInstance) {
+(function() {
+	this[["KAInfiniteLoopCount"]] = -Infinity;
+})();
+        size(600,600);
+frameRate(60);
+smooth();
+textFont(createFont("Orbitron"));
+textAlign(CENTER);
+var scene;
 var drawGun = function(type,x,y,s,r){
     switch(type){
         case "AK47":{
@@ -160,3 +171,8 @@ var menu = function(){
     a+=0.03;if(a > 2.5){a = 0;}for(var i = 0; i < width; i++){stroke(i/a*1);line(i+50, 0, i-50, 600);}var metalicTexture = get(0, 0, width, height);background(0,0,0);
     for(var i = 0; i < height; i+=25){fill(i/2,i/4,0);noStroke();rect(0,i,width,25);}textSize(50);for(var i = 50; i < 100; i+=2){textSize(i);fill((i*2)+100,(i*2),0);text("Gunfire",300,100);}textSize(100);fill(100);text("Gunfire",300,100);textSize(40);text("Play",300,240);text("Shop",300,310);text("Levels",300,380);text("About",300,450);var metalicText = get(0,0,600,600);metalicTexture.mask(metalicText);image(metalicTexture, 0, 0);fill(255,10);stroke(0);strokeWeight(3);if(mouseX > 150&&mouseY > 200&&mouseX < 150+300&&mouseY < 260){fill(255,50);cursor(HAND);}else{fill(255,10);cursor(ARROW);}rect(150,200,300,60,20,0,20,0);if(mouseX > 150&&mouseY > 270&&mouseX < 150+300&&mouseY < 270+60){fill(255,50);cursor(HAND);}else{fill(255,10);}rect(150,270,300,60,20,0,20,0);if(mouseX > 150&&mouseY > 340&&mouseX < 150+300&&mouseY < 340+60){fill(255,50);cursor(HAND);}else{fill(255,10);}rect(150,340,300,60,20,0,20,0);if(mouseX > 150&&mouseY > 410&&mouseX < 150+300&&mouseY < 410+60){fill(255,50);cursor(HAND);}else{fill(255,10);}rect(150,410,300,60,20,0,20,0);mouseClicked = function(){if(mouseX > 150&&mouseY > 200&&mouseX < 150+300&&mouseY < 260){scene = "game";}if(mouseX > 150&&mouseY > 270&&mouseX < 150+300&&mouseY < 270+60){scene = "shop";}if(mouseX > 150&&mouseY > 340&&mouseX < 150+300&&mouseY < 340+60){scene = "levels";}if(mouseX > 150&&mouseY > 410&&mouseX < 150+300&&mouseY < 410+60){scene = "about";}};drawGun("AK47-Black",500,300,1,-90);pushMatrix();scale(-1,1);drawGun("AK47-Black",-100,300,1,-90);popMatrix();drawGun("Pistol-Black",50,500,2,0);pushMatrix();scale(-1,1);drawGun("Pistol-Black",-550,500,2,0);popMatrix();
 };
+draw = function() {
+background(255);
+menu();
+};
+    }};
