@@ -1,6 +1,6 @@
 var codeSource = function(processingInstance) {
     with (processingInstance) {
-
+size(600,600);
 
 (function() {
 	this[["KAInfiniteLoopCount"]] = -Infinity;
