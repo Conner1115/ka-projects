@@ -61,7 +61,7 @@ var drawGun = function(type,x,y,s,r){
             arc(20,20,100,100,ang(120),ang(180));
             stroke(80);
             strokeWeight(5);
-            arc(20,20,100,100,ang(130),ang(180)ang();
+            arc(20,20,100,100,ang(130),ang(180));
 )            noStroke();
             fill(112, 78, 9);
             rect(-90,0,10,20,0,0,0,5);
