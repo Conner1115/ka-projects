@@ -1,7 +1,7 @@
 var codeSource = function(processingInstance) {
     with (processingInstance) {
 size(600,600);
-
+angleMode = "degrees";
 (function() {
 	this[["KAInfiniteLoopCount"]] = -Infinity;
 })();
