@@ -688,11 +688,7 @@
                 }
                 
             }
-            if(this.type === "Flamethrower"){
-                if(frameCount % 1 === 0){
-                    particles.push(new P(this.x+random(-20,20),this.y+random(-20,20),0))
-                }
-            }
+            
         };
         }
         //enemies
