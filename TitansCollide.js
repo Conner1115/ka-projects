@@ -3388,11 +3388,11 @@
                 case "menu":{
                     cursor(ARROW);
                 background(0);
-                /*for(var i = 50; i > 20; i-=2){
+                for(var i = 50; i > 20; i-=2){
                     textSize(i);
                     fill(i*3);
                     text("Orbitron TD 2:\nTitans Collide",300,50)
-                }*/
+                }
                 textSize(50);
                 fill(200,0,0);
                 text("Orbitron TD 2:\nTitans Collide",300,50)
