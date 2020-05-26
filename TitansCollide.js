@@ -1,4 +1,6 @@
 
+    //true,true,true,true,true,true,true,true,true,true,true,false,true,false,true,false,false,false,true,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,100000,1.2400000000000002,1.1,1.1,2.5000000000000013,4.999999999999981,2.000000000000001,2.0500000000000007,3.0000000000000018,3.0000000000000018,3.0099999999999945,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false,true,false,false,true,false,true,true,true,false
+
 
     document.getElementById("corner-logo").addEventListener("click",function(){
         alert("Sub here: https://www.khanacademy.org/computer-programming/subscribe-to-leviathan-programming/5097726407229440")
@@ -688,7 +690,11 @@
                 }
                 
             }
-            
+            if(this.type === "Flamethrower"){
+                if(frameCount % 5 === 0){
+                    particles.push(new P(this.x+random(-20,20),this.y+random(-20,20),0))
+                }
+            }
         };
         }
         //enemies
@@ -1753,7 +1759,7 @@
                 strokeWeight(5);
                 ellipse(0,0,60,60);
                 cursor(ARROW);
-                if(mouseX > this.x-30&&mouseX < this.x+30&&mouseY > this.y-30&&mouseY < this.y+30&&this.killable !== true){
+                if(mouseIsClicked&&mouseX > this.x-30&&mouseX < this.x+30&&mouseY > this.y-30&&mouseY < this.y+30&&this.killable !== true){
                     this.killable = true;
                 }
                 }
@@ -3384,11 +3390,11 @@
                 case "menu":{
                     cursor(ARROW);
                 background(0);
-                for(var i = 50; i > 20; i-=2){
+                /*for(var i = 50; i > 20; i-=2){
                     textSize(i);
                     fill(i*3);
                     text("Orbitron TD 2:\nTitans Collide",300,50)
-                }
+                }*/
                 textSize(50);
                 fill(200,0,0);
                 text("Orbitron TD 2:\nTitans Collide",300,50)
@@ -3463,13 +3469,16 @@
                 TRACK.draw();
                 fill(0);
                 if(dead.length === enemies.length){
-                    
-                    allowWaveStart = true;
+
+                        allowWaveStart = true;
                     enemies = [];
                     dead = [];
                     waveString = "";
+                    fill(0);
                     rect(300,550,600,100);
                     textAlign(CENTER);
+                    
+                    
                         
                     
                     
@@ -3485,7 +3494,7 @@
                     textAlign(CENTER);
                 }
                 if(allowWaveStart&&mouseY > 550&&mouseY < 600&&mouseX > 20&&mouseX < 220){
-                    if(mouseIsClicked){
+                    if(mouseIsClicked&&allowWaveStart){
                     wave+=1;
                     allowWaveStart = false;
                     enemyNum = 0;
@@ -3512,6 +3521,7 @@
                 fill(0)
                 text("Money: "+money,500,30)
                 text("Base Health: "+health,300,30)
+                text("Wave: "+wave,530,490)
                 rectMode(CENTER);
                 for(var i = 0; i < enemies.length; i++){
                     if(enemies[i].dead !== true){
@@ -3583,9 +3593,7 @@
                         bullets[i].r = undefined;
                     }
                 }
-                for(var i = 0; i < towerSpots.length; i++){
-                        towerSpots[i].draw();
-                }
+                
                 
                 for(var i = 0; i < towers.length; i++){
                     var t = towers[i];
@@ -3772,6 +3780,9 @@
                             }
                         }
                     }
+                }
+                for(var i = 0; i < towerSpots.length; i++){
+                        towerSpots[i].draw();
                 }
                 for(var i = 0; i < particles.length; i++){
                     var p = particles[i];
@@ -3980,3 +3991,4 @@
     var canvas = document.getElementById("game"); 
     // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
     var renderPJS = new Processing(canvas, processing_js); 
+     
