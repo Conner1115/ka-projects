@@ -306,6 +306,19 @@ var fillColors = ["0", "⇲", "+", "a", "m"];
 var sprites = {};
 var txt = {};
 
+function openLive(){
+    if(window.innerWidth <= 700){
+        var a = window.open("","");
+        a.document.open();
+        a.document.write("<!DOCTYPE html>"+document.documentElement.outerHTML.replaceAll("KAInfiniteLoopProtect();",""));
+        a.document.close();
+    }
+}
+
+document.body.onload = function(){
+    document.querySelector("#loader").style.display = "none";  
+};
+
 function renderSprite(w, s) {
     var v = w.split(';')
     var img = createGraphics(v[1].length * s, v.length * s);
