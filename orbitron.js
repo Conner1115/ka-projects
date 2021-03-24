@@ -1,3 +1,15 @@
+/**DO NOT DELETE**/
+function openLive(){
+    var a = window.open("","");
+    a.document.open();
+    a.document.write("<!DOCTYPE html>"+document.documentElement.outerHTML.replaceAll("KAInfiniteLoopProtect();",""));
+    a.document.close();
+}
+document.body.onload = function(){
+    document.querySelector("#loader").style.display = "none";
+}
+/**DO NOT DELETE**/
+
 var bbar;
 var wave = 0;
 var money = 10000;
