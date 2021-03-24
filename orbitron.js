@@ -10,6 +10,19 @@ var towers = [];
 var bullets = [];
 var clicked = false;
 var fps = 0;
+var canStartWave = true;
+var waveStarted = false;
+var deathCount = 0;
+var spawnCount = 0;
+var eInt = 25;
+var waves = [
+    ["0", "Wave 1"],
+    ["01", "Wave 2", 50],
+];
+var eTypes = {
+    "0": "enemy1",
+    "1": "enemy2",
+};
 var levelBitmaps = [
     [
         '                        ',
@@ -121,7 +134,7 @@ var art = {
     shield3: "           ȡȡȡ ȡȡȡȡ           ;        ȡȡȡȢȢȢ ȢȢȢȢȡȡ⬄        ;      ȡȡȢȢȢⱴⱴⱴ ⱴⱴⱴⱴȢ⬄Ȣȡ       ;     ⬄ȡȢȢⱴⱴɁ    ⁊⁊⬄⬄ⱴȢ ȡȡ     ;    ȡ⬄⬄      ⸘⸘⸘ ⬄⸘⁊⁊ⱴ ȢȢȡ    ;   ȡȢȢ⬄ Ɂ⁊⸘ ‽‽‽‽‽⬄‽⸘⸘⁊    ȡ   ;  ȡȡȢⱴ ⬄⁊⸘‽  ‽‽   ‽‽‽⸘ Ɂⱴ ȡȡ  ;    ⱴɁ ⬄⸘‽‽   ‽ ⇲⇲‽‽   ⁊Ɂ Ȣȡ  ; ȡȢȢ    ⬄‽‽ ‽‽ ⇲‽‽⇲⇲      ȢȢȡ ; ȡȢⱴ ⁊⸘‽‽   ‽‽ ‽‽‽  ⇲⇲ ‽⸘ɁⱴȢȡ ; ȡȢⱴ ⁊‽‽   ‽‽‽     99⇲ ‽⸘⁊ⱴȢȡ ;ȡȢⱴ ⁊⸘‽‽‽ ‽‽      ‽ 9 ⇲‽‽⬄⬄⬄⬄⬄;ȡȢⱴ⁊         ‽‽‽‽ ‽  ‽⇲‽⬄⬄ɁⱴȢȡ;⬄Ȣ       ‽‽ ‽‽‽‽‽ ‽  ‽‽⇲‽⸘⁊ⱴȢȡ;ȡ⬄ⱴ⁊ ‽‽  ‽‽‽ ‽‽‽  ‽‽‽ ‽⇲   ⱴ  ;ȡȢ⬄⬄ ⬄⬄⬄  ‽‽     ‽‽‽  ⇲     Ȣȡ;ȡȢⱴ ⬄⬄‽ ‽    ‽‽‽ ‽‽‽‽      ⱴȢȡ;ȡȢ ⁊⁊⸘ ‽‽   ‽‽‽‽  ‽‽‽   ⸘⸘⁊ Ȣȡ;ȡȢ ⁊⁊⸘  ‽‽‽ ‽‽‽‽‽ ‽‽‽ ‽⸘⸘⸘ ⱴȢȡ; ȡȢ ⁊ ⸘ ‽‽  ‽‽‽‽‽ ‽  ⬄⬄⸘⸘⁊ Ȣȡ ; ȡȢⱴ  ⸘‽ ⬄  ‽   ‽‽   ‽‽⬄⬄  Ȣȡ ; ȡȢ ⱴ ⁊⸘‽⬄‽  ‽‽‽⬄‽‽  ‽⸘⸘⬄⬄ȢȢȡ ;   ȢⱴɁ ⬄⬄‽‽  ‽‽‽⬄‽‽  ‽  ⸘⬄⬄ȡ  ;  ȡȡȢⱴ⬄⬄⁊⸘⸘ ‽‽‽‽⬄‽‽‽  ⁊⁊ⱴȢ⬄⬄  ;   ȡ⬄⬄ⱴɁ ⁊  ‽‽‽⬄‽‽‽⸘  ⁊ⱴȢȢ⬄   ;    ⬄ȢȢⱴⱴ ⁊⁊⸘⸘⸘⬄⸘⸘⸘⁊⁊ ⱴȢȢȡ    ;     ȡȡȢȢⱴ ɁɁɁɁ⬄ɁɁɁ  Ȣ ȡȡ     ;      ȡȡȢȢ    Ɂ⬄   ȢȢȢȡ       ;        ȡȡȡȢȢ  ⬄ȢȢȢȡȡȡ        ;           ȡȡȡȡ⬄ȡȡȡ           ",
     explosion1: "                         ;        ⟳⟳⟳⟳⟳⟳⟳⟳⟳        ;      ⟳⟳⟳⟳⟳⟳⟳⟳⟳⟳⟳⟳⟳      ;     ⟳⟳⟳⟳⟳⟳⟳⤾⟳⟳⟳⟳⟳⟳⟳     ;    ⟳⟳⟳⟳⤾⤾⤾⤾⤾⤾⤾⤾⤾⟳⟳⟳⟳    ;   ⟳⟳⟳⟳⤾⤾⤾⤾⤾⤾⤾⤾⤾⤾⤾⟳⟳⟳⟳   ;  ⟳⟳⟳⟳⤾⤾⤾⤾⤾⤾⤿⤾⤾⤾⤾⤾⤾⟳⟳⟳⟳  ;  ⟳⟳⟳⤾⤾⤾⤾⤿⤿⤿⤿⤿⤿⤿⤾⤾⤾⤾⟳⟳⟳  ; ⟳⟳⟳⤾⤾⤾⤾⤿⤿⤿⤿⤿⤿⤿⤿⤿⤾⤾⤾⤾⟳⟳⟳ ; ⟳⟳⟳⤾⤾⤾⤿⤿⤿⤿⤿→⤿⤿⤿⤿⤿⤾⤾⤾⟳⟳⟳ ; ⟳⟳⟳⤾⤾⤾⤿⤿⤿→→→→→⤿⤿⤿⤾⤾⤾⟳⟳⟳ ; ⟳⟳⟳⤾⤾⤾⤿⤿⤿→→→→→⤿⤿⤿⤾⤾⤾⟳⟳⟳ ; ⟳⟳⤾⤾⤾⤿⤿⤿→→→→→→→⤿⤿⤿⤾⤾⤾⟳⟳ ; ⟳⟳⟳⤾⤾⤾⤿⤿⤿→→→→→⤿⤿⤿⤾⤾⤾⟳⟳⟳ ; ⟳⟳⟳⤾⤾⤾⤿⤿⤿→→→→→⤿⤿⤿⤾⤾⤾⟳⟳⟳ ; ⟳⟳⟳⤾⤾⤾⤿⤿⤿⤿⤿→⤿⤿⤿⤿⤿⤾⤾⤾⟳⟳⟳ ; ⟳⟳⟳⤾⤾⤾⤾⤿⤿⤿⤿⤿⤿⤿⤿⤿⤾⤾⤾⤾⟳⟳⟳ ;  ⟳⟳⟳⤾⤾⤾⤾⤿⤿⤿⤿⤿⤿⤿⤾⤾⤾⤾⟳⟳⟳  ;  ⟳⟳⟳⟳⤾⤾⤾⤾⤾⤾⤿⤾⤾⤾⤾⤾⤾⟳⟳⟳⟳  ;   ⟳⟳⟳⟳⤾⤾⤾⤾⤾⤾⤾⤾⤾⤾⤾⟳⟳⟳⟳   ;    ⟳⟳⟳⟳⤾⤾⤾⤾⤾⤾⤾⤾⤾⟳⟳⟳⟳    ;     ⟳⟳⟳⟳⟳⟳⟳⤾⟳⟳⟳⟳⟳⟳⟳     ;      ⟳⟳⟳⟳⟳⟳⟳⟳⟳⟳⟳⟳⟳      ;        ⟳⟳⟳⟳⟳⟳⟳⟳⟳        ;                         ",
 
-    basic: "      222      ;     2Q2Q2     ;     1Q2Q2     ;     11222     ;     44555     ;    444=455    ;    444444=    ;    34==+4+    ;    344444+    ;    334+444    ;     33344     ;     22222     ;     1Q2Q2     ;     1Q2Q2     ;      122      ",
+    enemy1: "      222      ;     2Q2Q2     ;     1Q2Q2     ;     11222     ;     44555     ;    444=455    ;    444444=    ;    34==+4+    ;    344444+    ;    334+444    ;     33344     ;     22222     ;     1Q2Q2     ;     1Q2Q2     ;      122      ",
     enemy2: "      222      ;     2Q2Q2     ;     1Q2Q2     ;    1112222    ;  221445552    ; 222444=4552   ; 222444444=2   ; 12234==+4+2   ; 122344444+2   ; 112334+4441   ;  112333441    ;    1222222    ;     1Q2Q2     ;     1Q2Q2     ;      122      ",
     enemy3: "       2       ;      Q2Q      ;     1Q2Q2     ;     11222     ;     2455      ;     44+45     ;    44+44+     ;    34+4=4     ;    34=44=     ;     34=44     ;     2334      ;     22222     ;     1Q2Q2     ;      Q2Q      ;       2       ",
     enemy4: "       2       ;      c2c      ;     1c2c2     ;     11222     ;     2455      ;     44a45     ;    44a44a     ;    34a4b4     ;    34b44b     ;     34b44     ;     2334      ;     22222     ;     1c2c2     ;      c2c      ;       2       ",
@@ -194,7 +207,7 @@ var art = {
     bbar: "                                                            ;                                                            ;                                                            ;                 4444444444444444444444444555               ;               44411111111111111111111111111555             ;344444444444444444111111111111111111111111114455555555555555;311111411111111444111111111111111111114444444441114111411155;311111411111111444111111111111111111114111114441114111411145;333333333333444444111111111111111111114111114441114111411144;333333333333333333334444444444444444444444444444444444444444",
     upg: "     +++++     ;   ++WWWWW++   ;  +WW  +  WW+  ; +W   +++   W+ ; +   ++W++  W+ ;+W  ++W W++  W+;+  ++W   W++  +;+ +++++ +++++ +;+ WWWW+ +WWWW +;+     + +     +;W+    + +    +W; +    + +    + ; W+   +++   +W ;  W++ WWW ++W  ;   WW+++++WW   ;     WWWWW     ",
     sll: "     +++++     ;   ++WWWWW++   ;  +WW  +  WW+  ; +W   +++   W+ ; +   +W+W+  W+ ;+W   + + +   W+;+    + + W    +;+    W+++     +;+     W+W+    +;+      + +    +;W+   + + +   +W; +   W+++W   + ; W+   W+W   +W ;  W++  W  ++W  ;   WW+++++WW   ;     WWWWW     ",
-    pwr: "     +++++     ;   ++WWWWW++   ;  +WW   + WW+  ; +W    +W   W+ ; +    +W    W+ ;+W   +W      W+;+   +W        +;+   W+++++    +;+    WWWWW+   +;+        +W   +;W+      +W   +W; +     +W    + ; W+   +W    +W ;  W++ W   ++W  ;   WW+++++WW   ;     WWWWW     ",
+    trg: "     +++++     ;   ++WWWWW++   ;  +WW  +  WW+  ; +W    +    W+ ; +    +++   W+ ;+W   +W+W+   W+;+   +W + W+   +;+ +++++++++++ +;+ WW+WW+WW+WW +;+   W+ + +W   +;W+   W+++W   +W; +    W+W    + ; W+    +    +W ;  W++  W  ++W  ;   WW+++++WW   ;     WWWWW     ",
 
 
 
@@ -303,20 +316,21 @@ var letters = {
 var fillColors = ["0", "⇲", "+", "a", "m"];
 
 
+
 var sprites = {};
 var txt = {};
 
-function openLive(){
-    if(window.innerWidth <= 700){
-        var a = window.open("","");
+function openLive() {
+    if (window.innerWidth <= 700) {
+        var a = window.open("", "");
         a.document.open();
-        a.document.write("<!DOCTYPE html>"+document.documentElement.outerHTML.replaceAll("KAInfiniteLoopProtect();",""));
+        a.document.write("<!DOCTYPE html>" + document.documentElement.outerHTML.replaceAll("KAInfiniteLoopProtect();", ""));
         a.document.close();
     }
 }
 
-document.body.onload = function(){
-    document.querySelector("#loader").style.display = "none";  
+document.body.onload = function() {
+    document.querySelector("#loader").style.display = "none";
 };
 
 function renderSprite(w, s) {
@@ -386,7 +400,7 @@ function txt_(str, x = 0, y = 0, col = 0, sz = 15, ctr) {
         if (!ctr) {
             image(txt[st[s]], x + (s * (sz + (sz / 5))), y, sz, sz);
         } else {
-            image(txt[st[s]], x + (s * (sz + (sz / 5))) - ((st.length * sz) / 2), y, sz, sz);
+            image(txt[st[s]], x + (s * (sz + (sz / 5))) - (((st.length + 1) * sz) / 2), y, sz, sz);
         }
     }
     imageMode(CENTER);
@@ -447,8 +461,52 @@ function updateTower(tw) {
             tw.cost = 75;
             tw.next = "gun2";
             tw.nextCost = 100;
-            tw.name = "boosted tower";
+            tw.name = "boosted cannon";
             break;
+        case "gun2":
+            tw.damage = 3;
+            tw.speed = 8.5;
+            tw.cost = 100;
+            tw.next = "gun3";
+            tw.nextCost = 150;
+            tw.name = "heavy cannon";
+            break;
+        case "gun3":
+            tw.damage = 8;
+            tw.speed = 15;
+            tw.cost = 150;
+            tw.next = "gun4";
+            tw.nextCost = 200;
+            tw.name = "fang-21";
+            tw.pierce = 2;
+            tw.range = 100;
+            tw.rate = 40;
+            break;
+        case "gun4":
+            tw.damage = 8;
+            tw.speed = 15;
+            tw.cost = 300;
+            tw.next = "gun5";
+            tw.nextCost = 400;
+            tw.name = "viper-77";
+            tw.pierce = 2;
+            tw.range = 150;
+            tw.rate = 80;
+            tw.fireType = "double";
+            break;
+        case "gun5":
+            tw.damage = 4;
+            tw.speed = 15;
+            tw.cost = 400;
+            tw.next = "max";
+            tw.nextCost = Infinity;
+            tw.name = "SoulSmiter-77A";
+            tw.pierce = 2;
+            tw.range = 150;
+            tw.rate = 10;
+            tw.fireType = "single";
+            break;
+
     }
 }
 
@@ -474,19 +532,29 @@ function Tower(t, x, y) {
     this.selected = false;
     this.cost = 50;
     this.next = "gun1";
-    this.name = "basic tower";
+    this.name = "laser cannon";
     this.nextCost = 75;
+    this.fireType = "single";
+    this.targets = 0;
 
     updateTower(this);
 
 }
+
 Tower.prototype.run = function() {
+    imageMode(CENTER);
     var shooting = false;
     for (var i = 0; i < enemies.length; i++) {
         var e = enemies[i];
-        if (dist(e.x, e.y, this.x, this.y) < this.range + e.rad && !e.dead) {
+        var cond = dist(e.x, e.y, this.x, this.y) < this.range + e.rad && !e.dead;
+        if (cond) {
             //this.r += (atan2(e.y - this.y, e.x - this.x) - this.r) / 10;
-            this.r = atan2(e.y - this.y, e.x - this.x);
+
+            if (this.targets === 1) {
+                this.r = atan2(mouseY - this.y, mouseX - this.x);
+            } else {
+                this.r = atan2(e.y - this.y, e.x - this.x);
+            }
             shooting = true;
         }
     }
@@ -502,12 +570,20 @@ Tower.prototype.run = function() {
         strokeWeight(1);
         stroke(200);
         ellipse(0, 0, this.range * 2, this.range * 2);
+        _txt(this.name, 1, 21, 0, 10, true);
+        _txt(this.name, -1, 19, 0, 10, true);
+        _txt(this.name, 1, 19, 0, 10, true);
+        _txt(this.name, -1, 21, 0, 10, true);
+        _txt(this.name, 0, 20, 2, 10, true);
         csr = sprites.cursorp;
     }
     this.ar += (this.r - this.ar) / 5;
     image(sprites[this.base], 0, 0);
     rotate(this.ar);
-    image(sprites[this.t], 8 + (frameCount % this.rate == 0 && shooting ? (cos(-this.r) * 3) : 0), 0 + (frameCount % this.rate == 0 && shooting ? (sin(-this.r) * 3) : 0));
+    if (frameCount % this.rate === 0 && shooting) {
+        translate(-cos(this.r) * 3, -sin(this.r) * 3);
+    }
+    image(sprites[this.t], 8, 0);
     pop();
 
     if (this.selected) {
@@ -516,7 +592,7 @@ Tower.prototype.run = function() {
         ellipse(this.x, this.y, 20, 20);
         image(sprites.upg, this.x, this.y - 30 + sin(frameCount) * 2.5, 20, 20);
         image(sprites.sll, this.x - 20, this.y - 20 + cos(frameCount) * 2.5, 20, 20);
-        image(sprites.pwr, this.x + 20, this.y - 20 - cos(frameCount) * 2.5, 20, 20);
+        image(sprites.trg, this.x + 20, this.y - 20 - cos(frameCount) * 2.5, 20, 20);
         if (dist(mouseX, mouseY, this.x - 20, this.y - 20 + cos(frameCount) * 2.5) < 10) {
             _txt("+$" + Math.round(this.cost * 0.75), this.x, this.y + 20, 2, 10, true);
             csr = sprites.cursorp;
@@ -528,7 +604,7 @@ Tower.prototype.run = function() {
         }
         if (dist(mouseX, mouseY, this.x, this.y - 30 + sin(frameCount) * 2.5) < 10) {
             csr = sprites.cursorp;
-            if (money >= this.nextCost) {
+            if (money >= this.nextCost && this.next != "max") {
                 if (clicked) {
                     money -= this.nextCost;
                     this.t = this.next;
@@ -536,10 +612,27 @@ Tower.prototype.run = function() {
                     this.selected = false;
                 }
                 _txt("-$" + this.nextCost, this.x, this.y + 20, 2, 10, true);
+            } else if (this.next == "max") {
+                csr = sprites.cursorn;
+                _txt("Maxed", this.x, this.y + 20, 3, 10, true);
             } else {
                 csr = sprites.cursorn;
                 _txt("-$" + this.nextCost, this.x, this.y + 20, 3, 10, true);
             }
+        }
+        if (dist(mouseX, mouseY, this.x + 20, this.y - 20 - cos(frameCount) * 2.5) < 10) {
+            csr = sprites.cursorp;
+            var targetTypes = [
+                "auto",
+                "mouse",
+            ];
+            if (clicked) {
+                this.targets++;
+                if (this.targets >= targetTypes.length) {
+                    this.targets = 0;
+                }
+            }
+            _txt(targetTypes[this.targets], this.x, this.y + 20, 2, 10, true);
         }
     }
 
@@ -553,14 +646,34 @@ Tower.prototype.run = function() {
     }
     if (shooting) {
         if (frameCount % this.rate == 0) {
-            bullets.push(new Bullet(this.bulletType, this.x + cos(this.r) * 10, this.y + sin(this.r) * 10, {
-                damage: this.damage,
-                dot: this.dot,
-                slowdown: this.slowdown,
-                pierce: this.pierce,
-                r: this.ar,
-                speed: this.speed
-            }));
+            if (this.fireType == "single") {
+                bullets.push(new Bullet(this.bulletType, this.x + cos(this.r) * 10, this.y + sin(this.r) * 10, {
+                    damage: this.damage,
+                    dot: this.dot,
+                    slowdown: this.slowdown,
+                    pierce: this.pierce,
+                    r: this.ar,
+                    speed: this.speed
+                }));
+            }
+            if (this.fireType == "double") {
+                bullets.push(new Bullet(this.bulletType, -5 + this.x + cos(this.r) * 10, this.y + sin(this.r) * 10, {
+                    damage: this.damage,
+                    dot: this.dot,
+                    slowdown: this.slowdown,
+                    pierce: this.pierce,
+                    r: this.ar,
+                    speed: this.speed
+                }));
+                bullets.push(new Bullet(this.bulletType, 5 + this.x + cos(this.r) * 10, this.y + sin(this.r) * 10, {
+                    damage: this.damage,
+                    dot: this.dot,
+                    slowdown: this.slowdown,
+                    pierce: this.pierce,
+                    r: this.ar,
+                    speed: this.speed
+                }));
+            }
         }
     }
 
@@ -573,7 +686,7 @@ function Enemy(t, x, y) {
     this.t = t;
     this.r = 0;
     this.ar = 0;
-    this.trackPoint = 1;
+    this.trackPoint = 0;
     this.track = Math.floor(Math.random() * levelTracks[level].length);
     this.hidden = false;
     this.speed = 1;
@@ -585,6 +698,14 @@ function Enemy(t, x, y) {
     this.rad = 10;
     this.rew = 1;
 
+    switch (this.t) {
+        case "enemy2":
+            this.health = 15;
+            this.maxHealth = 15;
+            this.speed = 0.75;
+            this.rad = 15;
+            break;
+    }
 }
 Enemy.prototype.run = function() {
     var track = levelTracks[level][this.track][this.trackPoint];
@@ -605,8 +726,9 @@ Enemy.prototype.run = function() {
     translate(this.x, this.y);
     rotate(this.ar);
     imageMode(CENTER);
-    image(sprites.basic, 0, 0);
+    image(sprites[this.t], 0, 0);
     pop();
+
     if (this.health < this.maxHealth) {
         fill(255, 0, 0);
         rect(this.x - this.rad, this.y - this.rad - 5, (this.rad * 2), 2);
@@ -628,11 +750,13 @@ Enemy.prototype.run = function() {
     }
     if (this.trackPoint == levelTracks[level][this.track].length - 1 && !this.dead) {
         lives -= this.damage;
+        deathCount++;
         this.dead = true;
     }
     if (this.health <= 0 && !this.dead) {
         money += this.rew;
         kills++;
+        deathCount++;
         this.dead = true;
     }
 
@@ -844,26 +968,29 @@ function draw() {
     csr = sprites.cursor1;
     background(180, 180, 240);
 
+    if (waveStarted) {
+        if (frameCount % eInt === 0) {
+            if (spawnCount < waves[wave][0].length) {
+                spawnCount++;
+                enemies.push(new Enemy(eTypes[waves[wave][0][spawnCount - 1]], levelTracks[level][0][0][0], levelTracks[level][0][0][1]));
+
+            }
+        }
+    }
+    if (waves[wave][0].length === deathCount && waveStarted) {
+        deathCount = 0;
+        spawnCount = 0;
+        if (waves[wave][2]) {
+            money += waves[wave][2];
+        }
+        wave++;
+        waveStarted = false;
+        canStartWave = true;
+    }
+
     parseLevel(0)
 
     cursor("none");
-    fill(50);
-    noStroke();
-    rect(0, 495, 15 * 20, 5)
-    rect(1200 - (15 * 20), 495, 15 * 20, 5);
-    rect(300, 475, 40, 5);
-    rect(900, 475, 40, 5);
-    rect(17 * 20, 455, 560, 5);
-    imageMode(CORNER);
-    image(bbar, 0, 400);
-    image(sprites.button3, 940, 520, 60, 60);
-    image(sprites.button1, 1020, 520, 60, 60);
-    image(sprites.button2, 1100, 520, 60, 60);
-    imageMode(CENTER);
-    _txt("wave " + wave, 25, 532, 2, 12.5)
-    _txt("$" + money, 145, 532, 2, 12.5)
-    _txt("message text much blah ew gross\nso much texty blah much ew\nbleh enemies are coming no\nI'm going to die ew yuck", 370, 490, 2, 12.5);
-    _txt(lives + "HP", 790, 550, 2, 12.5);
     if (clicked) {
         for (var ii = 0; ii < towers.length; ii++) {
             if (towers[ii].selected && dist(mouseX, mouseY, towers[ii].x, towers[ii].y) > 50) {
@@ -898,17 +1025,57 @@ function draw() {
     }
     _txt("FPS: " + Math.round(fps), 20, 20, 2, 12.5);
 
+
+    fill(50);
+    noStroke();
+    rect(0, 495, 15 * 20, 5)
+    rect(1200 - (15 * 20), 495, 15 * 20, 5);
+    rect(300, 475, 40, 5);
+    rect(900, 475, 40, 5);
+    rect(17 * 20, 455, 560, 5);
+    imageMode(CORNER);
+    image(bbar, 0, 400);
+    image(sprites.button3, 940, 520, 60, 60);
+    image(sprites.button1, 1020, 520, 60, 60);
+    image(sprites.button2, 1100, 520, 60, 60);
+    if (!canStartWave) {
+        fill(0, 0, 0, 150);
+        stroke(150, 0, 0);
+        rect(940, 520, 60, 60);
+        noStroke();
+    } else {
+        fill(0, 0, 0, 0);
+        stroke(0, 255, 0);
+        rect(940, 520, 60, 60);
+        noStroke();
+    }
+    imageMode(CENTER);
+    _txt("wave " + (wave + 1), 25, 532, 2, 12.5)
+    _txt("$" + money, 145, 532, 2, 12.5)
+    _txt(waves[wave][1], 370, 490, 2, 12.5);
+    _txt(lives + "HP", 790, 550, 2, 12.5);
+
+    if (mouseX > 940 && mouseX < 940 + 60 && mouseY > 520 && mouseY < 520 + 60) {
+        if (canStartWave) {
+            csr = sprites.cursorp;
+            if (clicked) {
+                waveStarted = true;
+                canStartWave = false;
+            }
+        } else {
+            csr = sprites.cursorn;
+        }
+    }
+
     imageMode(CORNER);
     image(csr, mouseX, mouseY);
 
-    if (frameCount % 50 === 0) {
-        enemies.push(new Enemy("basic", -50, 75))
-    }
+
 }
 
 function mouseClicked() {
     clicked = true;
     setTimeout(function() {
         clicked = false;
-    }, 1000 / 60);
+    }, Math.round(frameRate()) / 5);
 }
