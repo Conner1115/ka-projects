@@ -10,6 +10,7 @@ document.body.onload = function(){
 }
 /**DO NOT DELETE**/
 
+var scene = "game";
 var bbar;
 var wave = 0;
 var money = 10000;
@@ -18,22 +19,31 @@ var lives = 100;
 var csr;
 var enemies = [];
 var kills = 0;
+var keys = [];
 var towers = [];
 var bullets = [];
 var clicked = false;
 var fps = 0;
+var towerMenu = false;
 var canStartWave = true;
 var waveStarted = false;
 var deathCount = 0;
 var spawnCount = 0;
 var eInt = 25;
+var towerSelected = false;
+var canPlaceTower = false;
 var waves = [
-    ["0", "Wave 1"],
+    ["6", "Wave 1"],
     ["01", "Wave 2", 50],
 ];
 var eTypes = {
     "0": "enemy1",
     "1": "enemy2",
+    "2": "enemy3",
+    "3": "enemy4",
+    "4": "enemy5",
+    "5": "enemy6",
+    "6": "enemy7",
 };
 var levelBitmaps = [
     [
@@ -78,6 +88,7 @@ var levelTracks = [
 var palette = { "0": "rgb(0,0,0)", "1": "rgb(25,25,25)", "2": "rgb(50,50,50)", "3": "rgb(75,75,75)", "4": "rgb(100,100,100)", "5": "rgb(125,125,125)", "6": "rgb(150,150,150)", "7": "rgb(175,175,175)", "8": "rgb(200,200,200)", "9": "rgb(225,225,225)", " ": "rgba(0,0,0,0)", "⇲": "rgb(255,255,255)", "a": "rgb(255,0,0)", "b": "rgb(225,0,0)", "c": "rgb(200,0,0)", "d": "rgb(175,0,0)", "e": "rgb(150,0,0)", "f": "rgb(125,0,0)", "g": "rgb(100,0,0)", "h": "rgb(75,0,0)", "i": "rgb(50,0,0)", "j": "rgb(25,0,0)", "↘︎": "rgb(255,225,200)", "➘": "rgb(225,200,175)", "⇘": "rgb(200,175,150)", "⬂": "rgb(175,150,125)", "⬊": "rgb(150,125,100)", "→": "rgb(255,150,0)", "⇒": "rgb(225,125,0)", "⟹": "rgb(200,100,0)", "⇨": "rgb(175,75,0)", "⇾": "rgb(150,50,0)", "➾": "rgb(125,25,0)", "¡": "rgb(255,200,0)", "™": "rgb(225,175,0)", "£": "rgb(200,150,0)", "¢": "rgb(175,125,0)", "∞": "rgb(150,100,0)", "§": "rgb(125,75,0)", "¶": "rgb(100,50,0)", "•": "rgb(75,25,0)", "ª": "rgb(50,25,0)", "º": "rgb(75,50,0)", "‹": "rgb(100,75,0)", "€": "rgb(125,100,0)", "›": "rgb(150,125,0)", "#": "rgb(255,255,0)", "$": "rgb(225,225,0)", "%": "rgb(200,200,0)", "^": "rgb(175,175,0)", "&": "rgb(150,150,0)", "*": "rgb(125,125,0)", "(": "rgb(100,100,0)", ")": "rgb(75,75,0)", "-": "rgb(50,50,0)", "_": "rgb(25,25,0)", "←": "rgb(150,255,0)", "⇐": "rgb(125,225,0)", "⟸": "rgb(100,200,0)", "⇦": "rgb(75,175,0)", "⇽": "rgb(50,150,0)", "⇠": "rgb(25,125,0)", "k": "rgb(0,255,0)", "l": "rgb(0,225,0)", "m": "rgb(0,200,0)", "n": "rgb(0,175,0)", "o": "rgb(0,150,0)", "p": "rgb(0,125,0)", "q": "rgb(0,100,0)", "r": "rgb(0,75,0)", "s": "rgb(0,50,0)", "t": "rgb(0,25,0)", "↑": "rgb(0,255,150)", "⇑": "rgb(0,225,125)", "⇡": "rgb(0,200,100)", "☝︎": "rgb(0,175,75)", "⬆︎": "rgb(0,150,50)", "⇧": "rgb(0,125,25)", "+": "rgb(0,255,255)", "=": "rgb(0,225,225)", "Q": "rgb(0,200,200)", "W": "rgb(0,175,175)", "E": "rgb(0,150,150)", "R": "rgb(0,125,125)", "T": "rgb(0,100,100)", "Y": "rgb(0,75,75)", "U": "rgb(0,50,50)", "I": "rgb(0,25,25)", "↓": "rgb(0,150,255)", "⇓": "rgb(0,125,225)", "⇩": "rgb(0,100,200)", "⇣": "rgb(0,75,175)", "☟": "rgb(0,50,150)", "⬇︎": "rgb(0,25,125)", "u": "rgb(0,0,255)", "v": "rgb(0,0,225)", "w": "rgb(0,0,200)", "x": "rgb(0,0,175)", "y": "rgb(0,0,150)", "z": "rgb(0,0,125)", "`": "rgb(0,0,100)", "~": "rgb(0,0,75)", "!": "rgb(0,0,50)", "@": "rgb(0,0,25)", "ƌ": "rgb(150,0,255)", "⇔": "rgb(125,0,225)", "⟺": "rgb(100,0,200)", "⬄": "rgb(75,0,175)", "⇿": "rgb(50,0,150)", "⬌": "rgb(25,0,125)", "O": "rgb(255,0,255)", "P": "rgb(225,0,225)", "A": "rgb(200,0,200)", "S": "rgb(175,0,175)", "D": "rgb(150,0,150)", "F": "rgb(125,0,125)", "G": "rgb(100,0,100)", "H": "rgb(75,0,75)", "J": "rgb(50,0,50)", "K": "rgb(25,0,25)", "↕︎": "rgb(255,0,150)", "⇕": "rgb(225,0,125)", "⇳": "rgb(200,0,100)", "⬍": "rgb(175,0,75)", "⥌": "rgb(150,0,50)", "⥍": "rgb(125,0,25)", "L": "rgb(255,75,0)", "Z": "rgb(225,100,0)", "X": "rgb(200,125,0)", "C": "rgb(175,150,0)", "V": "rgb(150,175,0)", "B": "rgb(125,200,0)", "N": "rgb(100,225,0)", "M": "rgb(75,255,0)", "[": "rgb(0,255,75)", "]": "rgb(0,225,100)", "ᚸ": "rgb(0,200,125)", "✡︎": "rgb(0,175,150)", "'": "rgb(0,150,175)", ",": "rgb(0,125,200)", ".": "rgb(0,100,225)", "/": "rgb(0,75,255)", "{": "rgb(75,0,255)", "}": "rgb(100,0,225)", "|": "rgb(125,0,200)", ":": "rgb(150,0,175)", "ᚢ": "rgb(175,0,150)", "℃": "rgb(200,0,125)", "℉": "rgb(225,0,100)", "?": "rgb(255,0,75)", "ȡ": "rgba(150,0,255,0.8)", "Ȣ": "rgba(150,0,255,0.7)", "ⱴ": "rgba(150,0,255,0.6)", "Ɂ": "rgba(150,0,255,0.5)", "⁊": "rgba(150,0,255,0.4)", "⸘": "rgba(150,0,255,0.3)", "‽": "rgba(150,0,255,0.2)", "⤿": "rgba(255,150,0,0.8)", "⤾": "rgba(255,150,0,0.6)", "⟳": "rgba(255,150,0,0.4)", "↻": "rgba(255,150,0,0.2)" };
 
 var art = {
+    tmenu: "    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555;    255555",
     base1: "     2222222222     ;     2333WW3332     ;     234===W332     ;    2346====6332    ;   234556=W655332   ;222345556=W655533222;233455556=W655553332;234655556=W655556332;23WW66666WW66666WW32;2W==WWWWW++WWWWW==W2;2=======W++W=======2;23==66666WW66666==32;233655556=W655556432;233355556=W655554332;222335556=W655543222;   233556=W655432   ;    2336W==W6432    ;     233====332     ;     2333==3332     ;     2222222222     ",
     base2: "                    ; 223   555555   322 ; 2⇩⇩355882299553⇩⇩2 ; 3⇩⇓5788822999⇲5⇓⇩3 ;  35⇓778822999⇲⇓53  ;  577⇓7882299⇲⇓995  ;  5777⇓78229⇲⇓9995  ; 566666⇓2222⇓998885 ; 5666662⇓↓↓⇓2988885 ; 5222222↓↓↓↓2222225 ; 5222222↓↓↓↓2222225 ; 5666662⇓↓↓⇓2777775 ; 566688⇓2222⇓666775 ;  5688⇓652255⇓6665  ;  588⇓86522455⇓665  ;  35⇓8865224445⇓53  ; 3⇩⇓586652244455⇓⇩3 ; 2⇩⇩355652244553⇩⇩2 ; 223   555555   322 ;                    ",
     base3: "                    ; 223   555555   322 ; 2dd355882299553dd2 ; 3db5788822999⇲5bd3 ;  35b778822999⇲b53  ;  577b7882299⇲b995  ;  5777b78229⇲b9995  ; 566666b2222b998885 ; 5666662baab2988885 ; 5222222aaaa2222225 ; 5222222aaaa2222225 ; 5666662baab2777775 ; 566688b2222b666775 ;  5688b652255b6665  ;  588b86522455b665  ;  35b8865224445b53  ; 3db586652244455bd3 ; 2dd355652244553dd2 ; 223   555555   322 ;                    ",
@@ -219,7 +230,8 @@ var art = {
     bbar: "                                                            ;                                                            ;                                                            ;                 4444444444444444444444444555               ;               44411111111111111111111111111555             ;344444444444444444111111111111111111111111114455555555555555;311111411111111444111111111111111111114444444441114111411155;311111411111111444111111111111111111114111114441114111411145;333333333333444444111111111111111111114111114441114111411144;333333333333333333334444444444444444444444444444444444444444",
     upg: "     +++++     ;   ++WWWWW++   ;  +WW  +  WW+  ; +W   +++   W+ ; +   ++W++  W+ ;+W  ++W W++  W+;+  ++W   W++  +;+ +++++ +++++ +;+ WWWW+ +WWWW +;+     + +     +;W+    + +    +W; +    + +    + ; W+   +++   +W ;  W++ WWW ++W  ;   WW+++++WW   ;     WWWWW     ",
     sll: "     +++++     ;   ++WWWWW++   ;  +WW  +  WW+  ; +W   +++   W+ ; +   +W+W+  W+ ;+W   + + +   W+;+    + + W    +;+    W+++     +;+     W+W+    +;+      + +    +;W+   + + +   +W; +   W+++W   + ; W+   W+W   +W ;  W++  W  ++W  ;   WW+++++WW   ;     WWWWW     ",
-    trg: "     +++++     ;   ++WWWWW++   ;  +WW  +  WW+  ; +W    +    W+ ; +    +++   W+ ;+W   +W+W+   W+;+   +W + W+   +;+ +++++++++++ +;+ WW+WW+WW+WW +;+   W+ + +W   +;W+   W+++W   +W; +    W+W    + ; W+    +    +W ;  W++  W  ++W  ;   WW+++++WW   ;     WWWWW     ",
+    trg: "     +++++     ;   ++WWWWW++   ;  +WW     WW+  ; +W++++ ++++W+ ; + +===+===+W+ ;+W +===+===+ W+;+  +===+===+  +;+  W+==+==+W  +;+   +==+==+   +;+   W+=+=+W   +;W+   +=+=+   +W; +   W+++W   + ; W+   W+W   +W ;  W++  W  ++W  ;   WW+++++WW   ;     WWWWW     ",
+
 
 
 
@@ -444,9 +456,11 @@ function Bullet(t, x, y, stats) {
     this.slowdown = stats.slowdown || 0;
     this.pierce = stats.pierce || 1;
     this.dead = false;
+    this.al = stats.al || false;
     this.hitting = false;
 }
 Bullet.prototype.run = function() {
+    imageMode(CENTER);
     push();
     translate(this.x, this.y);
     rotate(this.r);
@@ -507,7 +521,7 @@ function updateTower(tw) {
             tw.fireType = "double";
             break;
         case "gun5":
-            tw.damage = 4;
+            tw.damage = 8;
             tw.speed = 15;
             tw.cost = 400;
             tw.next = "max";
@@ -518,7 +532,175 @@ function updateTower(tw) {
             tw.rate = 10;
             tw.fireType = "single";
             break;
-
+        case "gun6":
+            tw.damage = 5;
+            tw.speed = 7.5;
+            tw.cost = 100;
+            tw.rate = 50;
+            tw.next = "gun7";
+            tw.nextCost = 200;
+            tw.name = "bloodshed cannon";
+            tw.bulletType = "b2";
+            tw.base = "base3";
+            break;
+        case "gun7":
+            tw.damage = 7;
+            tw.speed = 9;
+            tw.cost = 200;
+            tw.rate = 45;
+            tw.next = "gun8";
+            tw.pierce = 2;
+            tw.nextCost = 350;
+            tw.range = 125;
+            tw.name = "TORMENTOR-X77";
+            break;
+        case "gun8":
+            tw.damage = 7;
+            tw.speed = 10;
+            tw.cost = 350;
+            tw.rate = 45;
+            tw.next = "gun9";
+            tw.nextCost = 500;
+            tw.fireType = "double";
+            tw.pierce = 2;
+            tw.range = 150;
+            tw.name = "CytoSpear-X3";
+            break;
+        case "gun9":
+            tw.damage = 15;
+            tw.speed = 10;
+            tw.cost = 500;
+            tw.rate = 40;
+            tw.next = "gun10";
+            tw.nextCost = 750;
+            tw.fireType = "single";
+            tw.pierce = 3;
+            tw.range = 175;
+            tw.bulletType = "b6"
+            tw.name = "Cryotron-66B";
+            break;
+        case "gun10":
+            tw.damage = 15;
+            tw.speed = 10;
+            tw.cost = 750;
+            tw.rate = 15;
+            tw.next = "gun11";
+            tw.nextCost = 900;
+            tw.fireType = "double";
+            tw.pierce = 1;
+            tw.bulletType = "b2";
+            tw.name = "Panther-27";
+            break;
+        case "gun11":
+            tw.damage = 15;
+            tw.speed = 10;
+            tw.cost = 900;
+            tw.rate = 35;
+            tw.range = 200;
+            tw.next = "gun12";
+            tw.nextCost = 1250;
+            tw.fireType = "double";
+            tw.pierce = 4;
+            tw.bulletType = "b2";
+            tw.name = "Hyrda-35";
+            break;
+        case "gun12":
+            tw.damage = 25;
+            tw.speed = 15;
+            tw.cost = 1250;
+            tw.rate = 20;
+            tw.range = 225;
+            tw.next = "gun13";
+            tw.nextCost = 1500;
+            tw.fireType = "single";
+            tw.pierce = 4;
+            tw.bulletType = "b2";
+            tw.name = "Puma-225K";
+            break;
+        case "gun13":
+            tw.damage = 15;
+            tw.speed = 15;
+            tw.cost = 1500;
+            tw.rate = 10;
+            tw.range = 225;
+            tw.next = "max";
+            tw.nextCost = Infinity;
+            tw.fireType = "single";
+            tw.pierce = 4;
+            tw.bulletType = "b2";
+            tw.name = "Jaguar-87";
+            break;
+        case "gun14":
+            tw.base = "base5";
+            tw.damage = 10;
+            tw.speed = 1;
+            tw.cost = 250;
+            tw.pierce = 20;
+            tw.next = "gun15";
+            tw.nextCost = 300;
+            tw.bulletType = "b11";
+            tw.name = "Synthesizor cannon";
+            break;
+        case "gun15":
+            tw.damage = 15;
+            tw.cost = 300;
+            tw.range = 125;
+            tw.pierce = 20;
+            tw.next = "gun16";
+            tw.nextCost = 400;
+            tw.bulletType = "b9";
+            tw.name = "Fusitor 22K";
+            break;
+        case "gun16":
+            tw.damage = 2.5 / 2;
+            tw.cost = 400;
+            tw.rate = 5;
+            tw.range = 150;
+            tw.pierce = 20;
+            tw.next = "gun17";
+            tw.fireType = "double";
+            tw.nextCost = 500;
+            tw.bulletType = "b10";
+            tw.name = "Fury-X7";
+            break;
+        case "gun17":
+            tw.damage = 2.5;
+            tw.cost = 500;
+            tw.rate = 5;
+            tw.range = 150;
+            tw.pierce = 20;
+            tw.speed = 2;
+            tw.next = "gun18";
+            tw.fireType = "single";
+            tw.nextCost = 400;
+            tw.bulletType = "b13";
+            tw.name = "Fusor-25X";
+            break;
+        case "gun18":
+            tw.damage = 5;
+            tw.cost = 500;
+            tw.rate = 5;
+            tw.range = 200;
+            tw.pierce = 20;
+            tw.speed = 2;
+            tw.next = "max";
+            tw.fireType = "single";
+            tw.nextCost = Infinity;
+            tw.bulletType = "b11";
+            tw.name = "PhotonSpear";
+            break;
+        case "gun20":
+            tw.base = "base7";
+            break;
+        case "gun27":
+            tw.base = "base2";
+            break;
+        case "gun32":
+            tw.base = "base6";
+            break;
+        case "gun35":
+            tw.base = "base8";
+            break;
     }
 }
 
@@ -548,12 +730,22 @@ function Tower(t, x, y) {
     this.nextCost = 75;
     this.fireType = "single";
     this.targets = 0;
+    this.health = 25;
+    this.maxHealth = 25;
 
     updateTower(this);
 
 }
 
 Tower.prototype.run = function() {
+    for (var i = 0; i < bullets.length; i++) {
+        var b = bullets[i];
+        if (dist(b.x, b.y, this.x, this.y) <= 30 && b.al && !b.dead) {
+            this.health -= b.damage;
+            b.dead = true;
+        }
+    }
+
     imageMode(CENTER);
     var shooting = false;
     for (var i = 0; i < enemies.length; i++) {
@@ -597,6 +789,26 @@ Tower.prototype.run = function() {
     }
     image(sprites[this.t], 8, 0);
     pop();
+    if (this.shielded) {
+        if (this.maxHealth !== 100) {
+            this.health = 100;
+            this.maxHealth = 100;
+        }
+        if (this.health > 75) {
+            image(sprites.shield1, this.x, this.y);
+        } else if (this.health > 50 && this.health <= 75) {
+            image(sprites.shield2, this.x, this.y);
+        } else if (this.health < 50 && this.health > 25) {
+            image(sprites.shield3, this.x, this.y);
+        }
+    }
+
+    if (this.health < this.maxHealth) {
+        fill(255, 0, 0);
+        rect(this.x - 15, this.y - 15 - 5, (15 * 2), 2);
+        fill(0, 255, 0);
+        rect(this.x - 15, this.y - 15 - 5, (this.health / this.maxHealth) * (15 * 2), 2);
+    }
 
     if (this.selected) {
         fill(255, 255, 255, 25);
@@ -633,18 +845,24 @@ Tower.prototype.run = function() {
             }
         }
         if (dist(mouseX, mouseY, this.x + 20, this.y - 20 - cos(frameCount) * 2.5) < 10) {
-            csr = sprites.cursorp;
-            var targetTypes = [
-                "auto",
-                "mouse",
-            ];
-            if (clicked) {
-                this.targets++;
-                if (this.targets >= targetTypes.length) {
-                    this.targets = 0;
+            if (!this.shielded) {
+                if (money >= 100) {
+                    csr = sprites.cursorp;
+                    if (clicked) {
+                        this.shielded = true;
+                        money -= 100;
+                    }
+                    _txt("-$100", this.x, this.y + 20, 2, 10, true);
+                } else {
+                    csr = sprites.cursorn;
+                    _txt("-$100", this.x, this.y + 20, 3, 10, true);
                 }
+
+
+            } else {
+                csr = sprites.cursorn;
+                _txt("Maxed", this.x, this.y + 20, 3, 10, true);
             }
-            _txt(targetTypes[this.targets], this.x, this.y + 20, 2, 10, true);
         }
     }
 
@@ -689,6 +907,31 @@ Tower.prototype.run = function() {
         }
     }
 
+    if (this.health <= 0) {
+        this.dead = true;
+    }
+
+}
+Tower.prototype.draw = function() {
+    imageMode(CENTER);
+    push();
+    translate(this.x, this.y);
+    image(sprites[this.base], 0, 0);
+    rotate(this.ar);
+    image(sprites[this.t], 8, 0);
+    pop();
+    if (dist(this.x, this.y, mouseX, mouseY) <= 15) {
+        _txt("-$" + this.cost, this.x, this.y + 25, money >= this.cost ? 2 : 3, 12.5, true)
+        if (money >= this.cost) {
+            csr = sprites.cursorp;
+            if (clicked) {
+                towerMenu = false;
+                towerSelected = new Tower(this.t, mouseX, mouseY);
+            }
+        } else {
+            csr = sprites.cursorn;
+        }
+    }
 }
 
 
@@ -709,6 +952,7 @@ function Enemy(t, x, y) {
     this.moving = true;
     this.rad = 10;
     this.rew = 1;
+    this.rate = false;
 
     switch (this.t) {
         case "enemy2":
@@ -717,6 +961,38 @@ function Enemy(t, x, y) {
             this.speed = 0.75;
             this.rad = 15;
             break;
+        case "enemy3":
+            this.health = 3;
+            this.maxHealth = 3;
+            this.speed = 2;
+            this.rad = 10;
+            break;
+        case "enemy4":
+            this.health = 7;
+            this.maxHealth = 7;
+            this.speed = 2;
+            this.rad = 10;
+            break;
+        case "enemy5":
+            this.health = 20;
+            this.maxHealth = 20;
+            this.speed = 0.75;
+            this.rad = 15;
+            break;
+        case "enemy6":
+            this.health = 30;
+            this.maxHealth = 30;
+            this.speed = 1;
+            this.rad = 15;
+            break;
+        case "enemy7":
+            this.health = 50;
+            this.maxHealth = 50;
+            this.speed = 0.5;
+            this.rad = 15;
+            this.rate = 100;
+            break;
+
     }
 }
 Enemy.prototype.run = function() {
@@ -724,7 +1000,7 @@ Enemy.prototype.run = function() {
 
     for (var i = 0; i < bullets.length; i++) {
         var b = bullets[i];
-        if (dist(b.x, b.y, this.x, this.y) < this.rad && !b.dead && !b.hitting) {
+        if (dist(b.x, b.y, this.x, this.y) < this.rad && !b.dead && !b.hitting && !b.al) {
             this.health -= b.damage;
             b.pierce--;
             b.hitting = true;
@@ -772,13 +1048,54 @@ Enemy.prototype.run = function() {
         this.dead = true;
     }
 
+
+
+
+
+    //special aliens
+    if (this.t === "enemy7") {
+        if (frameCount % this.rate === 0) {
+            /*bullets.push(new Bullet(this.bulletType, this.x + cos(this.r) * 10, this.y + sin(this.r) * 10, {
+                    damage: this.damage,
+                    dot: this.dot,
+                    slowdown: this.slowdown,
+                    pierce: this.pierce,
+                    r: this.ar,
+                    speed: this.speed
+                })); */
+
+            bullets.push(new Bullet("b1", this.x + cos(this.ar + 45) * 15, this.y + sin(this.r + 45) * 15, {
+                damage: 1,
+                r: this.ar,
+                al: true,
+                speed: 10,
+            }))
+            bullets.push(new Bullet("b1", this.x + cos(this.ar - 45) * 15, this.y + sin(this.r - 45) * 15, {
+                damage: 1,
+                r: this.ar,
+                al: true,
+                speed: 10,
+            }))
+        }
+    }
+
 };
 
-
+var ex = 0;
 towers = [
-    new Tower("gun0", 100, 100),
-    new Tower("gun0", 200, 200)
+    //new Tower("gun0", 100, 100),
+    //new Tower("gun6", 200, 200)
 ]
+var exampleTowers = [
+    new Tower("gun0", 1140, 60),
+    new Tower("gun6", 1140, 130),
+    new Tower("gun14", 1140, 200),
+    new Tower("gun20", 1140, 270),
+    new Tower("gun27", 1140, 340),
+    new Tower("gun32", 1140, 410),
+    new Tower("gun35", 1140, 480),
+    new Tower("gun25", 1140, 550),
+];
 
 function setup() {
     createCanvas(1200, 600);
@@ -789,6 +1106,7 @@ function setup() {
     imageMode(CENTER);
     bbar = renderSprite(art.bbar, 20);
     csr = sprites.cursor1;
+    sprites.tmenu = renderSprite(art.tmenu, 20);
 }
 
 function parseLevel(lvl) {
@@ -978,116 +1296,180 @@ function parseLevel(lvl) {
 
 function draw() {
     csr = sprites.cursor1;
-    background(180, 180, 240);
+    if (scene == "game") {
+        if (keys[")"]) { scene = "test"; }
+        background(180, 180, 240);
 
-    if (waveStarted) {
-        if (frameCount % eInt === 0) {
-            if (spawnCount < waves[wave][0].length) {
-                spawnCount++;
-                enemies.push(new Enemy(eTypes[waves[wave][0][spawnCount - 1]], levelTracks[level][0][0][0], levelTracks[level][0][0][1]));
+        if (waveStarted) {
+            if (frameCount % eInt === 0) {
+                if (spawnCount < waves[wave][0].length) {
+                    spawnCount++;
+                    enemies.push(new Enemy(eTypes[waves[wave][0][spawnCount - 1]], levelTracks[level][0][0][0], levelTracks[level][0][0][1]));
 
+                }
             }
         }
-    }
-    if (waves[wave][0].length === deathCount && waveStarted) {
-        deathCount = 0;
-        spawnCount = 0;
-        if (waves[wave][2]) {
-            money += waves[wave][2];
+        if (waves[wave][0].length === deathCount && waveStarted) {
+            deathCount = 0;
+            spawnCount = 0;
+            if (waves[wave][2]) {
+                money += waves[wave][2];
+            }
+            wave++;
+            waveStarted = false;
+            canStartWave = true;
         }
-        wave++;
-        waveStarted = false;
-        canStartWave = true;
-    }
 
-    parseLevel(0)
+        parseLevel(0)
 
-    cursor("none");
-    if (clicked) {
-        for (var ii = 0; ii < towers.length; ii++) {
-            if (towers[ii].selected && dist(mouseX, mouseY, towers[ii].x, towers[ii].y) > 50) {
-                towers[ii].selected = false;
+        cursor("none");
+        if (clicked) {
+            for (var ii = 0; ii < towers.length; ii++) {
+                if (towers[ii].selected && dist(mouseX, mouseY, towers[ii].x, towers[ii].y) > 50) {
+                    towers[ii].selected = false;
+                }
             }
         }
-    }
 
-    for (var i = 0; i < enemies.length; i++) {
-        if (!enemies[i].dead) {
-            enemies[i].run();
+
+        for (var b = 0; b < bullets.length; b++) {
+            if (!bullets[b].dead) {
+                bullets[b].run();
+            }
         }
-    }
 
-    for (var b = 0; b < bullets.length; b++) {
-        if (!bullets[b].dead) {
-            bullets[b].run();
+        for (var i = 0; i < enemies.length; i++) {
+            if (!enemies[i].dead) {
+                enemies[i].run();
+            }
         }
-    }
 
-    for (var t = 0; t < towers.length; t++) {
-        if (!towers[t].dead) {
-            towers[t].run();
+        for (var t = 0; t < towers.length; t++) {
+            if (!towers[t].dead) {
+                towers[t].run();
+            }
         }
-    }
+
+        if (towerSelected) {
+            towerSelected.x = mouseX;
+            towerSelected.y = mouseY;
+            towerSelected.draw();
+            if (clicked && !towerMenu) {
+                money -= towerSelected.cost;
+                towers.push(new Tower(towerSelected.t, mouseX, mouseY));
+                towerSelected = false;
+            }
+
+            if (keys['Escape']) {
+                towerSelected = false;
+            }
+        }
 
 
+        if (frameCount % 25 === 0) {
+            fps = frameRate();
+        }
+        _txt("FPS: " + Math.round(fps), 20, 20, 2, 12.5);
 
 
-    if (frameCount % 25 === 0) {
-        fps = frameRate();
-    }
-    _txt("FPS: " + Math.round(fps), 20, 20, 2, 12.5);
-
-
-    fill(50);
-    noStroke();
-    rect(0, 495, 15 * 20, 5)
-    rect(1200 - (15 * 20), 495, 15 * 20, 5);
-    rect(300, 475, 40, 5);
-    rect(900, 475, 40, 5);
-    rect(17 * 20, 455, 560, 5);
-    imageMode(CORNER);
-    image(bbar, 0, 400);
-    image(sprites.button3, 940, 520, 60, 60);
-    image(sprites.button1, 1020, 520, 60, 60);
-    image(sprites.button2, 1100, 520, 60, 60);
-    if (!canStartWave) {
-        fill(0, 0, 0, 150);
-        stroke(150, 0, 0);
-        rect(940, 520, 60, 60);
+        fill(50);
         noStroke();
-    } else {
-        fill(0, 0, 0, 0);
-        stroke(0, 255, 0);
-        rect(940, 520, 60, 60);
-        noStroke();
-    }
-    imageMode(CENTER);
-    _txt("wave " + (wave + 1), 25, 532, 2, 12.5)
-    _txt("$" + money, 145, 532, 2, 12.5)
-    _txt(waves[wave][1], 370, 490, 2, 12.5);
-    _txt(lives + "HP", 790, 550, 2, 12.5);
+        rect(0, 495, 15 * 20, 5)
+        rect(1200 - (15 * 20), 495, 15 * 20, 5);
+        rect(300, 475, 40, 5);
+        rect(900, 475, 40, 5);
+        rect(17 * 20, 455, 560, 5);
+        imageMode(CORNER);
+        image(bbar, 0, 400);
+        image(sprites.button3, 940, 520, 60, 60);
+        image(sprites.button1, 1020, 520, 60, 60);
+        image(sprites.button2, 1100, 520, 60, 60);
 
-    if (mouseX > 940 && mouseX < 940 + 60 && mouseY > 520 && mouseY < 520 + 60) {
-        if (canStartWave) {
+        if (mouseX > 1020 && mouseY > 520 && mouseX < 1020 + 60 && mouseY < 520 + 60) {
             csr = sprites.cursorp;
             if (clicked) {
-                waveStarted = true;
-                canStartWave = false;
+                towerMenu = true;
             }
+        }
+
+        if (towerMenu) {
+            image(sprites.tmenu, width - 200, 0);
+            for (var i = 0; i < exampleTowers.length; i++) {
+                exampleTowers[i].draw();
+            }
+            if (mouseX < 1100 && !(mouseX > 1020 && mouseY > 520 && mouseX < 1020 + 60 && mouseY < 520 + 60) && clicked) {
+                towerMenu = false;
+            }
+        }
+
+        if (!canStartWave) {
+            fill(0, 0, 0, 150);
+            stroke(150, 0, 0);
+            rect(940, 520, 60, 60);
+            noStroke();
         } else {
-            csr = sprites.cursorn;
+            fill(0, 0, 0, 0);
+            stroke(0, 255, 0);
+            rect(940, 520, 60, 60);
+            noStroke();
+        }
+        imageMode(CENTER);
+        _txt("wave " + (wave + 1), 25, 532, 2, 12.5)
+        _txt("$" + money, 145, 532, 2, 12.5)
+        _txt(waves[wave][1], 370, 490, 2, 12.5);
+        _txt(lives + "HP", 790, 550, 2, 12.5);
+
+
+
+        if (mouseX > 940 && mouseX < 940 + 60 && mouseY > 520 && mouseY < 520 + 60) {
+            if (canStartWave) {
+                csr = sprites.cursorp;
+                if (clicked) {
+                    waveStarted = true;
+                    canStartWave = false;
+                }
+            } else {
+                csr = sprites.cursorn;
+            }
+        }
+
+        imageMode(CORNER);
+        image(csr, mouseX, mouseY);
+
+    }
+    if (scene == "test") {
+        background(180, 180, 240);
+        var sprts = Object.keys(sprites);
+        for (var i = 0; i < sprts.length; i++) {
+            image(sprites[sprts[i]], i * 100 + ex, 300);
+            _txt(sprts[i], i * 100 + ex, 250, 0, 8, true);
+        }
+        if (keys["ArrowLeft"]) {
+            ex += 15;
+        }
+        if (keys['ArrowRight']) {
+            ex -= 15;
+        }
+        if (keys['(']) {
+            scene = "game";
         }
     }
-
-    imageMode(CORNER);
-    image(csr, mouseX, mouseY);
-
-
+    if (clicked) {
+        clicked = false;
+    }
 }
 
 function mouseClicked() {
     clicked = true;
-    setTimeout(function() {
+    /*setTimeout(function() {
         clicked = false;
-    }, Math.round(frameRate()) / 5);
+    }, Math.round(frameRate()) / 5);*/
+}
+
+function keyPressed() {
+    keys[key] = true;
+}
+
+function keyReleased() {
+    keys[key] = false;
 }
