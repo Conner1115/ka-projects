@@ -1205,8 +1205,15 @@ function loadSprites() {
   }
 }
 
+var url = "https://images.unsplash.com/photo-1490604001847-b712b0c2f967?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2580&q=80"
+
 function preload(){
-  bg = loadImage("https://images.unsplash.com/photo-1490604001847-b712b0c2f967?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2580&q=80");
+  fetch(url).then(() => {
+    bg = loadImage(url);
+  }).catch(function() {
+    bg = createGraphics(1,1);
+    bg.background(0,200,255);
+  });
 }
 function setup() {
   createCanvas(1200, 600);
@@ -1218,8 +1225,11 @@ function draw() {
   cursor("default");
   if (scene == "game") {
     particles = particles.filter(a => !a.dead);
-    background(0,200,255);
-    image(bg,0,0,width,height);
+    if(bg){
+      image(bg,0,0,width,height);
+    }else{
+      background(0,200,255);
+    }
     push();
     cam.x += ((-player.x + width / 2) - cam.x) / 10;
     cam.y += ((-player.y + height / 2) - cam.y) / 10;
