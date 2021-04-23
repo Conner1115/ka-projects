@@ -756,7 +756,7 @@ function customSprite(w, s, r, val) {
     var vv = w;
     if (r && val) {
         var r2 = new RegExp(r, "g");
-        vv = vv.replace(r, val);
+        vv = vv.replace(r2, val);
     }
     var v = vv.split(";");
     var img = createGraphics(v[1].length * s, v.length * s);
