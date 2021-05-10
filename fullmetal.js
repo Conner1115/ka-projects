@@ -2043,7 +2043,7 @@ function loadSprites() {
   }
 }
 
-let stxt = "";
+var stxt = "";
 function cutScene(lvl) {
   if (lvl == 3) {
     scene = "cut";
