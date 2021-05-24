@@ -11,7 +11,7 @@ var cam = {
   y: 0,
 }
 var particles = [];
-var level = 12;
+var level = 0;
 var clicked = false;
 var alchemyMenu = false;
 var ingots = 0;
