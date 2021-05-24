@@ -11,7 +11,7 @@ var cam = {
   y: 0,
 }
 var particles = [];
-var level = 0;
+var level = 12;
 var clicked = false;
 var alchemyMenu = false;
 var ingots = 0;
@@ -32,7 +32,7 @@ var levels = [
       "2p         1                 2                    ",
       " 222s      1b                2                    ",
       "    222    1b                2                    ",
-      "       22221222^2^2^2^2^222  2                    ",
+      "       22221222222222222222  2                    ",
       "                             2  2wwwww2≥          ",
       "                            22  2wwwww21≥     s i ",
       "    s                        2  2wwwww211≥    M111",
@@ -42,7 +42,8 @@ var levels = [
       "                             M  …  …          M  M",
       "2                            d  :  :          d  M",
       "2                            D  ;  ;    ^     D  M",
-      "2c  22  22  22  22  22  22  MMcMMMMMMMMMMMMMMMMMMM"
+      "22c         22  22  22  22  MMcMMMMMMMMMMMMMMMMMMM",
+      "    22  22"
     ],
     signs: [
       "Welcome to Fullmetal Alchemist!",
@@ -145,18 +146,18 @@ var levels = [
       "2    :   …     :  2 … 222  :  ",
       "2    : ^ :     :  2 : 2    ;  ",
       "2    : 2 :     :  2 : 2    2 2",
-      "2    ;2… :     :  2 ;b2    2 2",
+      "2    ;2… :     :  2s;b2    2 2",
       "2    2 : :     :  22222    2 2",
       "2   2  : :     :      …    2 2",
       "2ww2   : :     :      :    2 2",
       "2ww2   : :     ;      :    2 2",
-      "2ww2   : :    222     :    2 2",
-      "2ww2   : :            :    2 2",
-      "2ww2   : :            :    2p2",
-      "2ww2   : :            :    222",
-      "2ww2   : :         b  :       ",
+      "2ww2   : :    2222    :    2 2",
+      "2ww2   : :        2   :    2 2",
+      "2ww2   : :        2   :    2p2",
+      "2ww2   : :         2  :    222",
       "2ww2   : :         2  :       ",
-      "2wwd   : :         …2s;       ",
+      "2ww2   : :          2 :       ",
+      "2wwd   : :         …2 ;       ",
       "2wwD   : ;   2     : 222222111",
       "222222 :22  22     :       bb2",
       "2 …  … :     …     :         2",
@@ -169,7 +170,7 @@ var levels = [
       "222222222222222222222222222222"
     ],
     signs: [
-      "stand on bombs to jump higher\nalso, R to restart if you miss."
+      "Stand on bombs to jump higher",
     ],
     restart: true,
   },
@@ -300,7 +301,892 @@ var levels = [
       "     222222  2222    222222   222 2222222 222     "
     ],
     restart: true,
-  }
+  },
+  {
+    m:[
+      " @       ç                       y    ç          y",
+      "                                 y          S ^  y",
+      "yyyyyyyyyyyyyL        KyyyycyyyyyyyyyyyyyyyySyyyyy",
+      "y            yL  ç   Ky                    y     y",
+      "y      ç      yL    Ky                     y     y",
+      "y              yyNNyy    Kyyyyyyyyyyyyy    yc    y",
+      "y   yyyyyyyL            Ky             yL        y",
+      "y          yL          Ky               yL       y",
+      "y           yyyyyyyyyyyy                 yyyyyyyyy",
+      "yyyyyyyyy   y              Kyyyyyyyyyy   y       y",
+      "y           y             Ky         y   y       y",
+      "y                        Ky          y           y",
+      "y              Kyyyyyyyyyy           y           y",
+      "y  yyyyL      Ky                     y       c   y",
+      "y      yL    Kyy                     y       y   y",
+      "y       yyyyyy y                     yyyyyyyyy   y",
+      "y              y                  Ky         y   y",
+      "yyyyyL    ç    b       KyyyyL    Kyy         y   y",
+      "y    yL        y      Ky    yL  Kyyy         y   y",
+      "y     yL       y     Ky      yyyyyyy         y   y",
+      "y      yyyyyyyyyyycyyyy  p    yyyyyyyyyyyy   y   y",
+      "y      y               yyyL              y   y   y",
+      "y  yy  y                  yL             y   y   y",
+      "y   y  y                   yL            y   y   y",
+      "yy  y  yy  yyyyyyyyyyyL     yL           y   y   y",
+      "y   y  y   y          yL     yL          y   y   y",
+      "y  yy  y  yy           yL     yL        yy   y   y",
+      "y   y  y   y            yL     yL       yy   y   y",
+      "yy  y  yy  y             yL     yL     yyy   y   y",
+      "y   y  y   y              yL     yL    yyy   y   y",
+      "y  yy  y  yy               yL         yyyy   y   y",
+      "y   y  y   y                yL    ç   yyyy   y   y",
+      "yy  y  yy  y                 yL      yyyyy   y   y",
+      "y   y  y   y                  yL     yyyyy   y   y",
+      "y  yy  y  yy                   yyyyyyyyyyy   y   y",
+      "y   y  y                                 y   y   y",
+      "yy  y  yy                                y   y   y",
+      "y   y   yL                               y   y   y",
+      "y  yy    yL                              y   y   y",
+      "y   y     y                              y   y   y",
+      "yy  y                                    y   y   y",
+      "y   yL        y  ç        ç        ç     y   y   y",
+      "y  y yL      yy                          y   y   y",
+      "y     yL    yyy                          y   y   y",
+      "yy     yycyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy   y   y",
+      "yyy                                              y",
+      "yyyy                ç       ç                    y",
+      "yyyyy                                            y",
+      "yyyyyy                                           y",
+      "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyycyyyyyyyy"
+      ],
+  },
+  {
+    m:[
+      "yyyyyyxyyyyyyxyyyyyyyxyyyyyyxy",
+      "@ y     y     y     y        O",
+      "  B  ç  B  ç  B  ç  B   ç    O",
+      "  V     V     V     V        O",
+      "NNyyyyyyyNyyyyyyNyyyyyyyN    O",
+      "y    y     y     y    y      O",
+      "y    y ç   y ç   y ç  y  ç   O",
+      "y    B     B     B    B      O",
+      "yp   V     V     V    V      O",
+      "yNyxyyyyyNyxyyyyNyyxyyyyNyyyyx"
+      ],
+      restart: true,
+  },
+  {
+    m:[
+      "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",
+      "O                            O",
+      "O                            O",
+      "O                           OO",
+      "O                           OO",
+      "Op                         OOO",
+      "OOOOOOOOOOOOOOOOOOOOOOOOO  OOO",
+      "  @ B                     OOOO",
+      "    V                     OOOO",
+      "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+      ],
+  },
+  {
+    m:[
+      "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      "y ¬ ¬y                       y",
+      "y    y                       y",
+      "y    y                       y",
+      "y    y                       y",
+      "y@   b                       y",
+      "y    b                       y",
+      "y    b  çççççççççççççççççç   y",
+      "y s bbb                     py",
+      "yyyy2yyyyyyyyyyyyyyyyyyyyyyyyy"
+      ],
+      signs: [
+        "Exit Ahead"
+      ]
+  },
+  {
+    m:[
+      "                                    0            0",
+      " @                      <00000>     0            0",
+      "                       <0000000>    0            0",
+      "      ^     ^     ^   <000000000   S0            0",
+      "00000000000000000000000000000000  0000c0000000   0",
+      "0                          0   0^^0              0",
+      "0                          0   0000             <0",
+      "0      00 0 0 0 00         i                   <00",
+      "0p     0 ^ ^ ^ ^  00>      0                  <000",
+      "00000000000000000000000000000000000000000000000000"
+      ],
+  },
+  {
+    m:[
+      " @                                                ",
+      "                                                 p",
+      "                                               <00",
+      "0000>                                         <000",
+      "00000>                                        0000",
+      "000000>                                       0000",
+      "0000000                                     0    0",
+      "0000000                                     0 ç  0",
+      "0000000                                    00    0",
+      "0000000  0>                             <000000000",
+      "0000000  00>                           <0000000000",
+      "0000000  000>                         <00000000000",
+      "0000000  0000>                       <000000000000",
+      "0000000  00000>                     <0000000000000",
+      "0000000  000000                     00000000000000",
+      "0000000  000000                     00000000000000",
+      "0000000  000000                  0  00000000000000",
+      "0000000  000000  0>             <0  00000000000000",
+      "0000000  000000  00>           <00  00000000000000",
+      "0000000  000000  000>         <000  00000000000000",
+      "0000000  000000  0000>       <0000  00000000000000",
+      "0000000  000000  00000wwwwwww00000  00000000000000",
+      "0000000  000000  000000wwwww000000  00000000000000",
+      "0000000  000000  000000wwwww000000  00000000000000",
+      "0000000  000000  00000000000000000  00000000000000"
+      ],
+  },
+  {
+    m:[
+      "                              ",
+      "                              ",
+      "                              ",
+      "                              ",
+      "                              ",
+      "                              ",
+      "                          ^  p",
+      "                       ^  2222",
+      "                    ^  2222222",
+      "                 ^  2222222222",
+      " @            ^  2222222222222",
+      "           ^  2222222222222222",
+      "        ^  2222222222222222222",
+      "        2222222222222222222222",
+      "000002222222222222222222222222"
+      ],
+  },
+  {
+    m:[//add seperators
+      "2        2      2      2     J",
+      "2        2      2      2     J",
+      "2        2      2      2     J",
+      "2   222JJ2   2JJ2   2JJ2   2JJ",
+      "2  22  JJ2  22JJ2  22JJ2  22JJ",
+      "2   2  JJ2   2JJ2   2JJ2   2JJ",
+      "22  2  JJ22  2JJ22  2JJ22  2JJ",
+      "2   2  JJ2   2JJ2   2JJ2   2JJ",
+      "2  22 2JJ2  22JJ2  22JJ2  22JJ",
+      "2   2 2JJ2   2JJ2   2JJ2   2JJ",
+      "22  2 2JJ22  2JJ22  2JJ22  2JJ",
+      "2   2 2JJ2   2JJ2   2JJ2   2JJ",
+      "2  22 2JJ2  22JJ2  22JJ2  22JJ",
+      "2   2 2JJ2   2JJ2   2JJ2   2JJ",
+      "22@ 2 2^^22  2JJ22  2JJ22  2JJ",
+      "2   2        2JJ    2JJ    2JJ",
+      "2  22       22JJ   22JJ   22pJ",
+      "222222222222222222222222222222"
+      ],
+  },
+  {
+    m:[
+      "J                           @2",
+      "J                            2",
+      "J  222222222222222222222222222",
+      "J                            2",
+      "J                            2",
+      "J22222222222222222222222222  2",
+      "J                            2",
+      "J                            2",
+      "J  222222222222222222222222222",
+      "J                            2",
+      "J                            2",
+      "J22222222222222222222222222  2",
+      "J                            2",
+      "Jp   s                       2",
+      "JJ2222222222222222222222222222"
+      ],
+      signs: [
+        "<-- Devil's Nest"
+      ]
+  },
+  {
+    m:[
+      "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      "y@   B     ç   ç    y                            y",
+      "y  s V             by                            y",
+      "yyyyyyyyyyyyyyyyyyyyy                            y",
+      "y                2                               y",
+      "y                2                               y",
+      "y                2yyy   KyL   KyL   KyL   KyL    y",
+      "y   NyyyyyyL       y    yyy   yyy   yyy   yyy    y",
+      "y          yL      y     y     y     y     y     y",
+      "y           yL     y     y     y     y     y     y",
+      "y            yL    yJJJJJyJJJJJyJJJJJyJJJJJy     y",
+      "yyyyyyyyyL    yL                                 y",
+      "y        yL    yL                                y",
+      "y         yL    yL                               y",
+      "y          yL    yyJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJy",
+      "y    NL     yL    y                              y",
+      "y     yL     y    y                              y",
+      "y      yL         B                              y",
+      "y       yL        V ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^y",
+      "yyyN     yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      "y                 y           y        y         y",
+      "y ç           ç   B        ç  B   ç    B         y",
+      "y                 V           V        V         y",
+      "yyyyyyyyyyyyyyyyyyyyyyyycyyyyyyyyyyyyyyyyyyyyN   y",
+      "y                       y                        y",
+      "y            ç       ç  y      ç  ç              y",
+      "y         ç             y   ç        ç           y",
+      "y                 ç     B                        y",
+      "yp  KyyyL  KyyyL        V                   b    y",
+      "yyyyyyyyyyyyyyyyyyyyyyyyyycyyyyyyyyyyyyyyyyyyNJJJy"
+      ],
+      signs: [
+        "beware of Chimeras"
+      ]
+  },
+  {
+    m:[
+    "M                                      M",
+    "M                                    @ M",
+    "M                                      M",
+    "M                                      M",
+    "M                                      M",
+    "M                                      M",
+    "M                                      M",
+    "M                                      M",
+    "M                                   MMMM",
+    "M                                    MMM",
+    "M                                    MMM",
+    "M                                    MMM",
+    "M                                    MMM",
+    "M  …      …     …      …     …      …MMM",
+    "M  :      :     :      :     :      :MMM",
+    "M  : MM   :     :      :     :      :MMM",
+    "M  :MMMM  :     :      :     :    M :MMM",
+    "M  MMMMM  :     :      :     :  M M :MMM",
+    "M^MMMMMMM ;     ;   ^  ;     ;  M^MMMMMM",
+    "MMMMMMMMMMMMSSSSSSSSSSSSSSSSMMMMMMMMMMMM"
+    ],
+    fight: true
+  },
+  {
+    m:[
+      "                                       1",
+      " @                                     1",
+      "                                       1",
+      "                                       1",
+      "1111≥        ≤111111≥        ≤111111≥  1",
+      "1   1≥      ≤1      1≥      ≤1      11 1",
+      "1    1≥ ^^ ≤1        1≥ ^^ ≤1          1",
+      "1     111111          111111           1",
+      "1             ≤1111≥           ≤111≥   1",
+      "1 11≥        ≤1    1≥         ≤1   1≥  1",
+      "1   1111111111      11111111111      111",
+      "1                                      1",
+      "1              ≤11≥             ≤11≥   1",
+      "1111111111111111  111111111111111  111 1",
+      "1                                      1",
+      "1                                      1",
+      "1  1111111111111111111111111111111111111",
+      "1                                      1",
+      "1                                     p1",
+      "1111111111111111111111111111111111111111"
+      ],
+  },
+  {
+    m:[
+      "1                                      1",
+      "1 @                                    1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1     p                                1",
+      "1111111111111111111111111111111111111111"
+      ],
+  },
+  {
+    m:[
+      "2      bJ                222222222222222",
+      "2 @    bJ                   V          2",
+      "2      bJ                   C  ç       2",
+      "2   s  bJ  ^    ^   ^       V          2",
+      "2222222222222222222222222222222222222  2",
+      "2                                      2",
+      "2                                      2",
+      "2                                      2",
+      "2 222      222      222      222      22",
+      "2    2    2   2    2   2    2   2    2 2",
+      "2     2  2     2  2     2  2     2  2  2",
+      "2     2  2     2  2     2  2     2  2  2",
+      "2     2  2     2  2     2  2     2  2  2",
+      "2   2 2  2   2 2  2   2 2  2   2 2  2  2",
+      "2   2 2^^2   2 2^^2   2 2^^2   2 2^^2  2",
+      "2   2  22    2  22    2  22    2  22   2",
+      "2  22       22       22       22   ç   2",
+      "2  22       22       22       22       2",
+      "2  22       22       22       22      p2",
+      "2222222222222222222222222222222222222222"
+      ],
+      signs: ["same controls, just a different body."]
+  },
+  {
+    m:[
+      "2 @                                    2",
+      "2                                      2",
+      "2                                      2",
+      "2222JJ22222222JJ222222JJ222222JJ2222JJ22",
+      "2         V       2       2       V    2",
+      "2         B       2       2       C    2",
+      "2         V       2       2       V    2",
+      "2JJ222222222222JJ2222222JJ22222JJ2222222",
+      "2     V       2       2       2        2",
+      "2     C       2       2       2        2",
+      "2     V       2       2       2        2",
+      "2JJ222222222JJ22JJJ2222JJJ22JJ2222222222",
+      "2        2        J       J            2",
+      "2        2        J       J            2",
+      "22       2       SJ      SJ            2",
+      "222222222222222222222222222222JJJJJJJJJ2",
+      "2    2       2        2      2         2",
+      "2    2       2        2      2         2",
+      "2    2       2        2      2        p2",
+      "2JJ222222JJ222222JJ222222JJ22222JJ222222"
+      ],
+  },
+  {
+    m:[
+      "1            1   1     1   1           1",
+      "1            1   1  @  1   1           1",
+      "1           111  1     1  111          1",
+      "1           111  1  i  1  111          1",
+      "1           111  1111111  111          1",
+      "1          11111         11111         1",
+      "1          11111         11111         1",
+      "1          11111         11111         1",
+      "1 111111111111111111111111111111111111 1",
+      "1                                      1",
+      "1                                      1",
+      "1                                      1",
+      "1                   i                  1",
+      "1111111111111111111111111111111111111111",
+      "                                        ",
+      "                                        ",
+      "                                    ç   ",
+      "                                        ",
+      "p                                       ",
+      "JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ",
+      "JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ"
+      ],
+      restart: true
+  },
+  {
+    m:[
+      "                   KyyL                 ",
+      "                  Ky  yL                ",
+      "                 Ky    yL               ",
+      "                Ky      yL              ",
+      "               Ky        yL             ",
+      "              Ky          yL            ",
+      "             Ky            yL           ",
+      "            Ky     KyyL     yL          ",
+      "       @   Ky     Ky  yL     yL         ",
+      "          Ky     Ky    yL     yL        ",
+      "         Ky     Ky      yL     yL       ",
+      "       sKy     Ky        yL     yL      ",
+      "       yy     Ky          yL     yL     ",
+      "      Ky     Ky            yL     yL    ",
+      "     Ky     Ky              yL     yL   ",
+      "    Ky     Ky                yL     yy  ",
+      "   Ky     Ky                  yL        ",
+      "  Ky     Ky                    yL       ",
+      "pKy  s  Ky                      yL     y",
+      "yyyyyyyyy                        yyyyyyy"
+      ],
+      signs:["up the mountain -->","go back.  I tricked you lol"]
+  },
+  {
+    m:[
+      "                                                                                                              @                                       ",
+      "                                                                                                                                                      ",
+      "p                                                                                                               s                                    s",
+      "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      ],
+      signs: [
+        "Long Walk -->",
+        "You didn't learn from last time?\n<-- Go back"
+      ],
+  },
+  {
+    m:[
+      "                              ",
+      "                              ",
+      "                     @        ",
+      "                              ",
+      "                       s     p",
+      "    00000000000000000000     0",
+      "    0                         ",
+      "    0                         ",
+      "p  s0                         ",
+      "00000                         "
+      ],
+      signs: [
+        "Intro to Invisible Blocks",
+        "I'm sorry, it's just so fun to trick you lol.",
+      ]
+  },
+  {
+    m:[
+      "              @               ",
+      "              s               ",
+      " …  …  …  …  000  J  J  J  J p",
+      " :  :  :  :   0   J  J  J  J  ",
+      " :  :  :  :   0   J  J  J  J  ",
+      " :  :  :  :   0   J  J  J  J  ",
+      " :  :  :  :   0   J  J  J  J  ",
+      " :  :  :  :   0   b  b  b  b  ",
+      " :  :  :s :   0   J  Js J  J  ",
+      "000000000000000000000000000000"
+      ],
+      signs: [
+        "Memory test",
+        "Bruh, how couldn't you remember\nthat you'd fall right through these??\nR to restart",
+        "Bruh, you're that bad at\nparkour after you've\ncome so far?  R to restart."
+      ]
+  },
+  {
+    m:[
+      "0000000000",
+      "0   Vçççç0",
+      "0  @Vçççç0",
+      "0   Bçççç0",
+      "0  sV   p0",
+      "0 00000000",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0        0",
+      "0  sp    0",
+      "0  00    0"
+      ],
+      signs: [
+        "15 chimeras vs. falling down a bottomless pit",
+        "good choice",
+      ],
+      restart: true,
+  },
+  {
+    m:[
+      " @                           y",
+      "                             y",
+      "   s   ^                     y",
+      "yyyyyyyyyyL    KyyyL   Kyyy  y",
+      "y     ¬   yL  Ky ¬ yL Ky ¬y  y",
+      "y          yyyy     yyy      y",
+      "y                            y",
+      "y  yyyyyL                    y",
+      "y  y  ¬ yL                   y",
+      "y  y     yyyyyyyyyyyyyyyyyyyyy",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "yyyyyyyyyyyyyyyyyyyyyyyyyy   y",
+      "y       y  ¬     ¬     ¬     y",
+      "y       y   ç    ç           y",
+      "y       V                    y",
+      "y       C                    y",
+      "yp      V                    y",
+      "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+      ],
+      signs: [
+        "Welcome to the fifth labratory!"
+      ]
+  },
+  {
+    m:[
+      "y                            y",
+      "y@                           y",
+      "y                            y",
+      "y                            y",
+      "yyyy                         y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "y                            y",
+      "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+      ],
+      fight: true
+  },
+  {
+    m:[
+      " @   ","     ",
+      "     "," s   ",
+      "00   ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "     ","     ",
+      "   s ",
+      "22222"
+      ],
+      signs:[
+        "Fall down.",
+        "Yay you won.",
+      ]
+  },
+  {m:[" @","","000"]},
 ];
 var blockTypes = {
   "0": "b0", //dirt
@@ -413,7 +1299,7 @@ var art = {
   chleg3: "  444  ; 43333 ; 43333 ; 433332; 433332; 433332; 433322;  3332 ;  3332 ;  3332 ;  3332 ;   32  ;   32  ;   32  ;   32  ;   32  ;   32  ;   32  ;   32  ;   32  ;  332  ;  332  ; 3332  ; 3332  ; ⇲32   ",
 
   //salatio
-  
+
 
 
   //buttons
@@ -725,6 +1611,7 @@ function updateBlock(b) {
         for (var i = 0; i < 10; i++) {
           particles.push(new Particle("aspark", this.x + blockSize / 2, this.y + blockSize / 2));
         }
+        player.spawn = [this.x, this.y];
       };
       break;
     case "S":
@@ -1537,7 +2424,7 @@ var player = {
     }
 
     if (!keys["ArrowLeft"] && !keys["a"] && !keys["d"] && !keys["ArrowRight"]) {
-      this.rot.cape = 10 + sin(frameCount * 2) * 10;
+      this.rot.cape = 10 + sin(frameCount * 2) * 15;
       this.rot.armR += (0 - this.rot.armR) / 10;
       this.rot.armL += (0 - this.rot.armL) / 10;
       this.rot.legR += (0 - this.rot.legR) / 10;
@@ -1659,7 +2546,6 @@ Block.prototype.draw = function () {
   if (this.t == "c") {
     if (this.activated) {
       image(sprites.checkpoint2, this.x, this.y, blockSize, blockSize);
-      player.spawn = [this.x, this.y];
     }
   }
 
@@ -1683,6 +2569,10 @@ Block.prototype.draw = function () {
     if (this.hit) {
       level++;
       cutScene(level);
+      player.xVel = 0;
+      player.yVel = 0;
+      player.xAcc = 0;
+      player.yAcc = 0;
       player.health = player.maxHealth;
       runLevel();
     }
@@ -1713,7 +2603,7 @@ Block.prototype.collideY = function (ply) {
           ply.y = this.y + blockSize;
           ply.yVel *= -0.75;
         } else {
-          ply.y = this.y - player.h;
+          ply.y = this.y - ply.h;
           ply.yVel = 0;
           ply.yAcc = 0;
           if (this.stepAc === "step" && !this.activated && ply == player) {
@@ -1765,7 +2655,7 @@ Block.prototype.collideX = function (ply) {
   this.hit = collideRectRect(this.x, this.y, blockSize, blockSize, ply.x, ply.y, ply.w, ply.h);
 
   if (this.c && this.cType == "rect" && this.hit) {
-    if (this.stepAc == "press" && !this.activated) {
+    if (this.stepAc == "press" && !this.activated  && ply === player) {
       if (keys["ArrowDown"] || keys["s"]) {
         this.onActivate();
         this.activated = true;
@@ -1796,19 +2686,19 @@ function Enemy(t, x, y) {
   this.yVel = 0;
   this.yAcc = 0;
   this.xAcc = 0;
-  this.speed = 3;
-  this.maxSpeed = 3;
+  this.speed = 4;
+  this.maxSpeed = 4;
   this.jumpForce = 10;
-  this.health = 100;
-  this.maxHealth = 100;
+  this.health = 500;
+  this.maxHealth = 500;
   this.canMove = true;
   this.inLiquid = false;
   this.type = t;
   this.rot = {};
   this.dead = false;
   this.state = [];
-  this.rate = 100;
-  this.damage = 50;
+  this.rate = 10;
+  this.damage = 100;
   if (this.type === "ch1") {
     this.speed = 3;
     this.jumpForce = 7;
@@ -1818,6 +2708,26 @@ function Enemy(t, x, y) {
     this.damage = 25;
     this.w = 125;
     this.h = 75;
+  }
+  if (this.type === "lust") {
+    this.speed = 3;
+    this.jumpForce = 7;
+    this.health = 100;
+    this.maxHealth = 100;
+    this.rate = 100;
+    this.damage = 25;
+    this.w = 50;
+    this.h = 100;
+  }
+  if (this.type === "gluttony") {
+    this.speed = 2;
+    this.jumpForce = 0;
+    this.health = 100;
+    this.maxHealth = 100;
+    this.rate = 50;
+    this.damage = 25;
+    this.w = 75;
+    this.h = 100;
   }
   if (this.type === "ch2") {
     this.speed = 4;
@@ -1841,6 +2751,12 @@ Enemy.prototype.draw = function () {
   }
   if (this.type == "ch2") {
     this.jumpForce = 0;
+    playerRig(this.type, this.x, this.y, this.rot, this.state)
+  }
+  if (this.type == "lust") {
+    playerRig(this.type, this.x, this.y, this.rot, this.state)
+  }
+  if (this.type == "gluttony") {
     playerRig(this.type, this.x, this.y, this.rot, this.state)
   }
   if (this.health < this.maxHealth) {
@@ -1912,7 +2828,7 @@ Enemy.prototype.moveX = function () {
     this.xVel = -this.speed;
   }
   if (this.x > player.x && !collideRectRect(this.x, this.y, this.w, this.h, player.x, player.y, player.w, player.h) && this.canMove) {
-    this.xAcc += 0.5;
+    this.xAcc -= 0.5;
     this.state[0] = "left";
     this.rot.armR = sin(frameCount * 5) * 30;
     this.rot.armL = -sin(frameCount * 5) * 30;
@@ -1921,7 +2837,7 @@ Enemy.prototype.moveX = function () {
     this.rot.leg1 = sin(frameCount * 5) * 30;
     this.rot.leg2 = cos(frameCount * 5) * 30;
   } else if (this.x < player.x && !collideRectRect(this.x, this.y, this.w, this.h, player.x, player.y, player.w, player.h) && this.canMove) {
-    this.xAcc -= 0.5;
+    this.xAcc += 0.5;
     this.xVel = this.speed;
     this.state[0] = "right";
     this.rot.armR = sin(frameCount * 5) * 30;
@@ -2016,6 +2932,13 @@ function runLevel() {
   if (level === 4) {
     enemies.push(new Enemy("ch1", 1000, 100))
   }
+  if (level === 21) {
+    enemies.push(new Enemy("greed", 500, 100))
+  }
+  if (level === 33) {
+    enemies.push(new Enemy("lust", 500, 100))
+    enemies.push(new Enemy("gluttony", 1000, 100))
+  }
 }
 runLevel();
 
@@ -2043,7 +2966,7 @@ function loadSprites() {
   }
 }
 
-var stxt = "";
+let stxt = "";
 function cutScene(lvl) {
   if (lvl == 3) {
     scene = "cut";
@@ -2094,10 +3017,60 @@ function cutScene(lvl) {
     
     Click to Continue.`;
   }
+
+  if(lvl == 14){
+    scene = "cut";
+    stxt = `You meet a guy named Shou Tucker, an alchemist who experiments with
+    humans, animals, and genetics.  He himself is a monster from a failed experiment, 
+    mixed with a large creature like a bear.  He tells you that Philosipher Stones
+    are made of human lives.  Now you must escape the labratory and find your alchemy
+    teacher to see if there is an alternative.
+    
+    Click to Continue.`;
+  }
+
+  if(lvl == 18){
+    scene = "cut";
+    stxt = `You find your alchemy teacher and find out that
+    there is no alternative to a philosipher stone.  You are
+    about to go back home until some suspicious people kidnap
+    your brother alphonse.  Find him and rescue him.
+    
+    Click to Continue.`;
+  }
+
+  if(lvl == 21){
+    scene = "cut";
+    stxt = `You find your brother and you both escape from the people who kidnapped him.
+    Escaped from all except one of them, a Homoculus (artificial human) who
+    has a layer of carbon armor as hard as a diamond protecting his body.
+    
+    Click to Continue.`;
+  }
+
+  if(lvl == 22){
+    scene = "cut";
+    stxt = `You kill the homoculus and move on to find a Philosiper stone.
+    A guy is trying to make a philosiper stone in a city.
+    You must find him and stop him before he kills thousands of
+    people in the process.
+    
+    Click to Continue.`;
+  }
+
+  if(lvl == 24){
+    scene = "cut";
+    stxt = `You find him and fight him.  Later, he manages to activate it and makes it inside
+    of alphonse.  You then restore alphonse's body and get teleported to another dimension.
+    Congrats, you've won on this world.
+    
+    Click to Continue.`;
+    player.type = "al";
+  }
 }
 
 var url = "https://images.unsplash.com/photo-1490604001847-b712b0c2f967?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
-var bg3, bg4;
+var bg3, bg4, bg5, bg6;
 
 function preload() {
   fetch(url).then(() => {
@@ -2105,11 +3078,17 @@ function preload() {
     bg2 = loadImage("https://images.unsplash.com/photo-1529276426793-9c2dfd01d127?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80");
     bg3 = loadImage("https://images.unsplash.com/photo-1599167657413-29379d83459b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
     bg4 = loadImage("https://images.unsplash.com/photo-1565801498494-db3f437cd935?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80");
+    bg5 = loadImage("https://images.unsplash.com/photo-1586970850192-1e39bb631404?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzB8fGxhbmRzY2FwZSUyMHdhbGxwYXBlcnN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=60");
+    bg6 = loadImage("https://images.unsplash.com/photo-1526289034009-0240ddb68ce3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80");
   }).catch(function () {
     bg = createGraphics(1, 1);
     bg.background(0, 200, 255);
     bg2 = createGraphics(1, 1);
     bg2.background("rgb(0,100,150)")
+    bg5 = createGraphics(1, 1);
+    bg5.background(0, 200, 255);
+    bg6 = createGraphics(1, 1);
+    bg6.background(50,50,50);
   });
 }
 function setup() {
@@ -2121,6 +3100,9 @@ function setup() {
 function draw() {
   cursor("default");
   if (scene == "game") {
+    if(level >= 24){
+      player.type = "al";
+    }
     if (keys["r"]) {
       runLevel();
       player.health = player.maxHealth;
@@ -2141,11 +3123,23 @@ function draw() {
       } else {
         background(0, 100, 150);
       }
-    } else if (level < 16) {
+    } else if (level < 15) {
       if (bg4) {
         image(bg4, 0, 0, width, height);
       } else {
         background(25, 25, 75);
+      }
+    }else if (level < 20) {
+      if (bg5) {
+        image(bg5, 0, 0, width, height);
+      } else {
+        background(0,200,255);
+      }
+    }else if (level < 40) {
+      if (bg6) {
+        image(bg6, 0, 0, width, height);
+      } else {
+        background(50,50,50);
       }
     }
 
