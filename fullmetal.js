@@ -3010,7 +3010,7 @@ function cutScene(lvl) {
   }
   if (lvl == 6) {
     scene = "cut";
-    stxt = `You escape the priest and find out prove that he's a fake.\n\nThe ring on his finger that contained
+    stxt = `You escape the priest and find proof that he\'s a fake.\n\nThe ring on his finger that contained
     the philosipher's stone shattered.  A fake.
     Now you are going to search for a real one
     In the Fifth Labratory in Amestris.
